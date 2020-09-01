@@ -47,10 +47,95 @@ Or, it might make sense to think about state relative to time.
 **[⬆ back to top](#table-of-contents)**
 
 ## **02. Class-Based State**
+
 ### setState & Class
+
+```javascript
+import React, { Component } from 'react';
+
+class Counter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+
+    this.increment = this.increment.bind(this);
+    this.decrement = this.decrement.bind(this);
+    this.reset = this.reset.bind(this);
+  }
+
+  increment() {
+    this.setState({ count: this.state.count + 1 })
+  }
+
+  decrement() {
+    this.setState({ count: this.state.count - 1 })
+  }
+
+  reset() {
+    this.setState({ count: 0 })
+  }
+
+  render() {
+    const { count } = this.state;
+
+    return (
+      <div className="Counter">
+        <p className="count">{count}</p>
+        <section className="controls">
+          <button onClick={this.increment}>Increment</button>
+          <button onClick={this.decrement}>Decrement</button>
+          <button onClick={this.reset}>Reset</button>
+        </section>
+      </div>
+    );
+  }
+}
+
+export default Counter;
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### setState & Asynchronicity
+
+```javascript
+// this.setState() is asynchronous.
+// React is trying to avoid unnecessary re-renders.
+this.setState({ count: this.state.count + 1 });
+this.setState({ count: this.state.count + 1 });
+this.setState({ count: this.state.count + 1 });
+console.log(this.state.count);  // 0
+```
+
+```javascript
+// What will the count be after the user’s clicks the “Increment” button? 1
+// Effectively, you’re queuing up state changes.
+// React will batch them up, figure out the result and then efficiently make that change.
+export default class Counter extends Component {
+  constructor() { ... }
+  increment() {
+    this.setState({ count: this.state.count + 1 });
+    this.setState({ count: this.state.count + 1 });
+    this.setState({ count: this.state.count + 1 });
+  }
+  render() { ... }
+}
+
+Object.assign(
+  {},
+  yourFirstCallToSetState,
+  yourSecondCallToSetState,
+  yourThirdCallToSetState,
+);
+
+const newState = {
+  ...yourFirstCallToSetState,
+  ...yourSecondCallToSetState,
+  ...yourThirdCallToSetState,
+};
+```
 **[⬆ back to top](#table-of-contents)**
 
 ### setState & Function
