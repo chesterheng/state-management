@@ -198,8 +198,6 @@ export default class Counter extends Component {
 ### setState & Helper Function
 
 ```javascript
-import React, { Component } from 'react';
-
 const getStateFromLocalStorage = () => {
   const storage = localStorage.getItem('counterState');
   if (storage) return JSON.parse(storage);
@@ -239,9 +237,41 @@ class Counter extends Component {
 **[⬆ back to top](#table-of-contents)**
 
 ### document.title Exercise
-**[⬆ back to top](#table-of-contents)**
-
 ### document.title Solution
+
+```javascript
+class Counter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = getStateFromLocalStorage();
+
+    this.increment = this.increment.bind(this);
+    this.decrement = this.decrement.bind(this);
+    this.reset = this.reset.bind(this);
+    this.updateDocumentTitle = this.updateDocumentTitle.bind(this);
+  }
+
+  updateDocumentTitle() {
+    document.title = this.state.count;
+  }
+
+  increment() {
+    this.setState(increment, this.updateDocumentTitle);
+    console.log('Before!', this.state);
+  }
+
+  decrement() {
+    this.setState({ count: this.state.count - 1 }, this.updateDocumentTitle);
+  }
+
+  reset() {
+    this.setState({ count: 0 }, this.updateDocumentTitle);
+  }
+
+  render() { ... }
+}
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### setState Patterns
