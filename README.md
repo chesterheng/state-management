@@ -22,6 +22,12 @@
       - [Don’t use state for things you’re not going to render.](#dont-use-state-for-things-youre-not-going-to-render)
       - [Use sensible defaults.](#use-sensible-defaults)
   - [**03. Hooks State**](#03-hooks-state)
+    - [Refactoring & Hooks](#refactoring--hooks)
+    - [useEffect & Dependencies](#useeffect--dependencies)
+    - [useEffect Exercise](#useeffect-exercise)
+    - [Refactoring & Custom Hook](#refactoring--custom-hook)
+    - [Persisting State & useRef](#persisting-state--useref)
+    - [useEffect & Cleanup](#useeffect--cleanup)
   - [**04. Reducers**](#04-reducers)
   - [**05. Context**](#05-context)
   - [**06. Data Fetching**](#06-data-fetching)
@@ -512,6 +518,54 @@ class Items extends Component {
 **[⬆ back to top](#table-of-contents)**
 
 ## **03. Hooks State**
+
+### Refactoring & Hooks
+
+```javascript
+const [count, setCount] = React.useState(0);
+const increment = () => setCount(count + 1);
+const decrement = () => setCount(count - 1);
+const reset = () => setCount(0);
+```
+
+```javascript
+const increment = () => {
+  setCount(count + 1);
+  setCount(count + 1);
+  setCount(count + 1);
+};
+```
+
+```javascript
+const increment = () => {
+  setCount(c => c + 1);
+  setCount(c => c + 1);
+  setCount(c => c + 1);
+};
+```
+
+```javascript
+setCount(c => {
+  if (c >= max) return c;
+  return c + 1;
+});
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### useEffect & Dependencies
+**[⬆ back to top](#table-of-contents)**
+
+### useEffect Exercise
+**[⬆ back to top](#table-of-contents)**
+
+### Refactoring & Custom Hook
+**[⬆ back to top](#table-of-contents)**
+
+### Persisting State & useRef
+**[⬆ back to top](#table-of-contents)**
+
+### useEffect & Cleanup
 **[⬆ back to top](#table-of-contents)**
 
 ## **04. Reducers**
