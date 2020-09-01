@@ -6,6 +6,14 @@
   - [**01. Introduction**](#01-introduction)
     - [Types of State](#types-of-state)
   - [**02. Class-Based State**](#02-class-based-state)
+    - [setState & Class](#setstate--class)
+    - [setState & Asynchronicity](#setstate--asynchronicity)
+    - [setState & Function](#setstate--function)
+    - [setState & Callback](#setstate--callback)
+    - [setState & Helper Function](#setstate--helper-function)
+    - [document.title Exercise](#documenttitle-exercise)
+    - [document.title Solution](#documenttitle-solution)
+    - [setState Patterns](#setstate-patterns)
   - [**03. Hooks State**](#03-hooks-state)
   - [**04. Reducers**](#04-reducers)
   - [**05. Context**](#05-context)
@@ -39,6 +47,28 @@ Or, it might make sense to think about state relative to time.
 **[⬆ back to top](#table-of-contents)**
 
 ## **02. Class-Based State**
+### setState & Class
+**[⬆ back to top](#table-of-contents)**
+
+### setState & Asynchronicity
+**[⬆ back to top](#table-of-contents)**
+
+### setState & Function
+**[⬆ back to top](#table-of-contents)**
+
+### setState & Callback
+**[⬆ back to top](#table-of-contents)**
+
+### setState & Helper Function
+**[⬆ back to top](#table-of-contents)**
+
+### document.title Exercise
+**[⬆ back to top](#table-of-contents)**
+
+### document.title Solution
+**[⬆ back to top](#table-of-contents)**
+
+### setState Patterns
 **[⬆ back to top](#table-of-contents)**
 
 ## **03. Hooks State**
