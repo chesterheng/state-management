@@ -554,6 +554,19 @@ setCount(c => {
 **[⬆ back to top](#table-of-contents)**
 
 ### useEffect & Dependencies
+
+Side effects
+
+- Anything that is not return value is side effects
+- Ajax request
+- console log
+
+```javascript
+useEffect(() => {
+  document.title = `Counter: ${count}`
+}, [count]);
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### useEffect Exercise
