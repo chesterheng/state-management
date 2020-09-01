@@ -178,6 +178,21 @@ export default class Counter extends Component {
 **[⬆ back to top](#table-of-contents)**
 
 ### setState & Callback
+
+```javascript
+import React, { Component } from 'react';
+export default class Counter extends Component {
+  constructor() { ... }
+  increment() {
+    this.setState(
+      { count: this.state.count + 1 },
+      () => { console.log(this.state); }
+    )
+  }
+  render() { ... }
+}
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### setState & Helper Function
