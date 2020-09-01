@@ -14,6 +14,13 @@
     - [document.title Exercise](#documenttitle-exercise)
     - [document.title Solution](#documenttitle-solution)
     - [setState Patterns](#setstate-patterns)
+      - [When we’re working with props, we have PropTypes. That’s not the case with state.](#when-were-working-with-props-we-have-proptypes-thats-not-the-case-with-state)
+      - [Don’t use this.state for derivations of props.](#dont-use-thisstate-for-derivations-of-props)
+      - [Don’t do this. Instead, derive computed properties directly from the props themselves.](#dont-do-this-instead-derive-computed-properties-directly-from-the-props-themselves)
+      - [You don’t need to shove everything into your render method.](#you-dont-need-to-shove-everything-into-your-render-method)
+      - [You can break things out into helper methods.](#you-can-break-things-out-into-helper-methods)
+      - [Don’t use state for things you’re not going to render.](#dont-use-state-for-things-youre-not-going-to-render)
+      - [Use sensible defaults.](#use-sensible-defaults)
   - [**03. Hooks State**](#03-hooks-state)
   - [**04. Reducers**](#04-reducers)
   - [**05. Context**](#05-context)
@@ -275,6 +282,233 @@ class Counter extends Component {
 **[⬆ back to top](#table-of-contents)**
 
 ### setState Patterns
+
+#### When we’re working with props, we have PropTypes. That’s not the case with state.
+
+```javascript
+function shouldIKeepSomethingInReactState(){
+  if(canICalculateItFromProps()){
+    // Don't duplicate data from props in state.
+    // Calculate what you can in render() method.
+    return false;
+  }
+  if(!amIUsingItInRenderMethod()){
+    // Don't keep something in the state
+    // if you don't use it for rendering.
+    // For example, API subscriptions are
+    // better off as custom private fields
+    // or variables in external modules.
+    return false;
+  }
+  // You can use React state for this!
+  return true;
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+#### Don’t use this.state for derivations of props.
+
+```javascript
+class User extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fullName: props.firstName + ' ' + props.lastName
+    };
+  }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+#### Don’t do this. Instead, derive computed properties directly from the props themselves.
+
+```javascript
+class User extends Component {
+  render() {
+    const { firstName, lastName } = this.props;
+    const fullName = firstName + ' ' + lastName;
+    return (
+      <h1>{fullName}</h1>
+    );
+  }
+}
+
+// Alternatively...
+class User extends Component {
+  get fullName() {
+    const { firstName, lastName } = this.props;
+    return firstName + ' ' + lastName;
+  }
+  render() {
+    return (
+      <h1>{this.fullName}</h1>
+    );
+  }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+#### You don’t need to shove everything into your render method.
+#### You can break things out into helper methods.
+
+```javascript
+class UserList extends Component {
+  render() {
+    const { users } = this.props;
+    return (
+      <section>
+        <VeryImportantUserControls />
+        { users.map(user => (
+          <UserProfile
+            key={user.id}
+            photograph={user.mugshot}
+            onLayoff={handleLayoff}
+          /> 
+        )) }
+        <SomeSpecialFooter />
+      </section>
+    );
+  }
+}
+```
+
+```javascript
+class UserList extends Component {
+  renderUserProfile(user) {
+    return (
+      <UserProfile
+        key={user.id}
+        photograph={user.mugshot}
+        onLayoff={handleLayoff}
+      />
+    )
+  }
+
+  render() {
+    const { users } = this.props;
+    return (
+      <section>
+        <VeryImportantUserControls />
+          { users.map(this.renderUserProfile) }
+        <SomeSpecialFooter />
+      </section>
+    );
+  }
+}
+```
+
+```javascript
+const renderUserProfile = user => {
+  return (
+    <UserProfile
+      key={user.id}
+      photograph={user.mugshot}
+      onLayoff={handleLayoff}
+    />
+  );
+};
+
+const UserList = ({ users }) => {
+  return (
+    <section>
+      <VeryImportantUserControls />
+      {users.map(renderUserProfile)}
+      <SomeSpecialFooter />
+    </section>
+  );
+};
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+#### Don’t use state for things you’re not going to render.
+
+```javascript
+class TweetStream extends Component {
+  constructor() {
+    super();
+    this.state = {
+      tweets: [],
+      tweetChecker: setInterval(() => {
+        Api.getAll('/api/tweets').then(newTweets => {
+          const { tweets } = this.state;
+          this.setState({ tweets: [ ...tweets, newTweets ] });
+        });
+      }, 10000)
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.tweetChecker);
+  }
+
+  render() { // Do stuff with tweets }
+}
+```
+
+```javascript
+class TweetStream extends Component {
+  constructor() {
+    super();
+    this.state = {
+      tweets: []
+    }
+  }
+
+  componentWillMount() {
+    this.tweetChecker = setInterval( ... );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.tweetChecker);
+  }
+
+  render() { // Do stuff with tweets }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+#### Use sensible defaults.
+
+```javascript
+class Items extends Component {
+  constructor() {
+    super();
+  }
+
+  componentDidMount() {
+    Api.getAll('/api/items').then(items => {
+      this.setState({ items });
+    });
+  }
+
+  render() { // Do stuff with items }
+}
+```
+
+```javascript
+class Items extends Component {
+  constructor() {
+    super();
+    this.state = {
+      items: []
+    }
+  }
+
+  componentDidMount() {
+    Api.getAll('/api/items').then(items => {
+      this.setState({ items });
+    });
+  }
+
+  render() { // Do stuff with items }
+}
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ## **03. Hooks State**
