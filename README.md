@@ -136,9 +136,45 @@ const newState = {
   ...yourThirdCallToSetState,
 };
 ```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### setState & Function
+
+- There is actually a bit more to this.setState().
+- Did you know that you can also pass a function in as an argument?
+
+```javascript
+// 3
+// can merge object, cannot merge function
+// When you pass functions to this.setState(), it plays through each of them.
+import React, { Component } from 'react';
+export default class Counter extends Component {
+  constructor() { ... }
+
+  increment() {
+    this.setState(state => { return { count: state.count + 1 } });
+    this.setState(state => { return { count: state.count + 1 } });
+    this.setState(({ count }) => { return { count: state.count + 1 } });
+  }
+
+  render() { ... }
+}
+
+import React, { Component } from 'react';
+export default class Counter extends Component {
+  constructor() { ... }
+  increment() {
+    this.setState(state => {
+      if (state.count >= 5) return;
+      return { count: state.count + 1 };
+    })
+  }
+
+  render() { ... }
+}
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### setState & Callback
