@@ -25,6 +25,7 @@
     - [Refactoring & Hooks](#refactoring--hooks)
     - [useEffect & Dependencies](#useeffect--dependencies)
     - [useEffect Exercise](#useeffect-exercise)
+    - [useEffect Solution](#useeffect-solution)
     - [Refactoring & Custom Hook](#refactoring--custom-hook)
     - [Persisting State & useRef](#persisting-state--useref)
     - [useEffect & Cleanup](#useeffect--cleanup)
@@ -213,12 +214,14 @@ export default class Counter extends Component {
 ```javascript
 const getStateFromLocalStorage = () => {
   const storage = localStorage.getItem('counterState');
+  // storage = '{"count":0}'
   if (storage) return JSON.parse(storage);
   return { count: 0 };
 };
 
 const storeStateInLocalStorage = state => {
   localStorage.setItem('counterState', JSON.stringify(state));
+  // localStorage = Storage { counterState: '{"count":0}' }
   console.log(localStorage);
 };
 
@@ -572,6 +575,36 @@ useEffect(() => {
 ### useEffect Exercise
 
 Can you add a second effect that updates the document's title whenever the count changes?
+
+**[⬆ back to top](#table-of-contents)**
+
+### useEffect Solution
+
+```javascript
+const getStateFromLocalStorage = () => {
+  const storage = localStorage.getItem('counterState');
+  // storage = '{"count":0}'
+  console.log(storage);
+  if (storage) return JSON.parse(storage).count;
+  return 0;
+};
+
+const storeStateInLocalStorage = count => {
+  localStorage.setItem('counterState', JSON.stringify({ count }));
+  // localStorage = Storage { counterState: '{"count":0}' }
+  console.log(localStorage);
+};
+
+const Counter = ({ max, step }) => {
+  const [count, setCount] = useState(getStateFromLocalStorage());
+
+  useEffect(() => {
+    storeStateInLocalStorage(count);
+  }, [count]);
+
+  return ( ... );
+};
+```
 
 **[⬆ back to top](#table-of-contents)**
 
