@@ -570,6 +570,9 @@ useEffect(() => {
 **[⬆ back to top](#table-of-contents)**
 
 ### useEffect Exercise
+
+Can you add a second effect that updates the document's title whenever the count changes?
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Refactoring & Custom Hook
