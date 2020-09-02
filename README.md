@@ -609,6 +609,36 @@ const Counter = ({ max, step }) => {
 **[⬆ back to top](#table-of-contents)**
 
 ### Refactoring & Custom Hook
+
+```javascript
+const useLocalStorage = (initialState, key) => {
+  const get = () => {
+    const storage = localStorage.getItem(key);
+    // localStorage = Storage { count: '{"value":0}' }
+    // storage = '{"value":0}'
+    console.log(localStorage);
+    console.log(storage);
+    if (storage) return JSON.parse(storage).value;
+    return initialState;
+  };
+
+  const [value, setValue] = useState(get());
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify({ value }));
+    // eslint-disable-next-line
+  }, [value]);
+
+  return [value, setValue];
+};
+
+const Counter = ({ max, step }) => {
+  const [count, setCount] = useLocalStorage(0, 'count');
+
+  return ( ... );
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Persisting State & useRef
