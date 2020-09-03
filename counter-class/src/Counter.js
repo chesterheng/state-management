@@ -45,6 +45,12 @@ class Counter extends Component {
     this.setState({ count: 0 }, this.updateDocumentTitle);
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      console.log(`Count: ${this.state.count}`);
+    }, 3000);
+  }
+
   render() {
     const { count } = this.state;
 

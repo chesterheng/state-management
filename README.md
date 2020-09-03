@@ -522,7 +522,7 @@ class Items extends Component {
 
 ## **03. Hooks State**
 
-### Refactoring & Hooks
+### Refactoring & [Hooks](https://reactjs.org/docs/hooks-state.html)
 
 ```javascript
 const [count, setCount] = React.useState(0);
@@ -556,7 +556,7 @@ setCount(c => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### useEffect & Dependencies
+### [useEffect](https://reactjs.org/docs/hooks-effect.html) & Dependencies
 
 Side effects
 
@@ -608,7 +608,7 @@ const Counter = ({ max, step }) => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Refactoring & Custom Hook
+### Refactoring & [Custom Hook](https://reactjs.org/docs/hooks-custom.html)
 
 ```javascript
 const useLocalStorage = (initialState, key) => {
@@ -641,7 +641,38 @@ const Counter = ({ max, step }) => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Persisting State & useRef
+### Persisting State & [useRef](https://reactjs.org/docs/hooks-reference.html#useref)
+
+- access the DOM
+- keep any mutable value around 
+
+```javascript
+const Counter = ({ max, step }) => {
+  const [count, setCount] = useState(0);
+  const countRef = useRef();
+  // countRef = { current: null }
+
+  let message = '';
+  if (countRef.current < count) message = 'Higher';
+  if (countRef.current > count) message = 'Lower';
+
+  countRef.current = count;
+  // countRef = { current: 0 }
+
+  const increment = () => {
+    setCount(c => c + 1);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log(`Count: ${count}`);
+    }, 3000);
+  }, [count]);
+
+  return ( ... );
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### useEffect & Cleanup
