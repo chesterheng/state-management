@@ -717,6 +717,12 @@ useEffect(() => {
 
 ### [useReducer](https://reactjs.org/docs/hooks-reference.html#usereducer) Introduction
 
+What’s the deal with useReducer()?
+
+- So, it turns out that it has nothing to do with Redux. 
+- But, it does allow you to use reducers—just like Redux.
+- The cool part is that it allows you to create interfaces where you (or a friend) can pass in the mechanics about how to update state.
+
 - [React's useReducer Hook vs Redux](https://www.robinwieruch.de/redux-vs-usereducer)
 - [Immer](https://github.com/immerjs/immer)
 - [Immutable](https://immutable-js.github.io/immutable-js/)
@@ -813,9 +819,40 @@ const Application = () => {
 **[⬆ back to top](#table-of-contents)**
 
 ### Action & State Modification Exercise
+
+- Be a better person than me.
+- I’ve implemented the ability to add a grudge. 
+- Can you implement the ability to forgive one?
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Action & State Modification Solution
+
+```javascript
+const reducer = (state, action) => {
+  if(action.type === GRUDGE_FORGIVE) {
+    return state.map(grudge => {
+      if (grudge.id !== action.payload.id) return grudge;
+      return { ...grudge, forgiven: !grudge.forgiven };
+    })
+  }
+  return state;
+};
+
+const Application = () => {
+  const [grudges, dispatch] = useReducer(reducer, initialState);
+
+  const toggleForgiveness = id => {
+    dispatch({
+      type: GRUDGE_FORGIVE,
+      payload: { id }
+    });
+  };
+
+  return ( ... );
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### React.memo & useCallback
