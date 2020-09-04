@@ -28,8 +28,15 @@
     - [useEffect Solution](#useeffect-solution)
     - [Refactoring & Custom Hook](#refactoring--custom-hook)
     - [Persisting State & useRef](#persisting-state--useref)
+      - [How do lifecycle methods and hooks differ?](#how-do-lifecycle-methods-and-hooks-differ)
     - [useEffect & Cleanup](#useeffect--cleanup)
   - [**04. Reducers**](#04-reducers)
+    - [useReducer Introduction](#usereducer-introduction)
+    - [Reducer Action & State](#reducer-action--state)
+    - [Reducer Action Keys & dispatch](#reducer-action-keys--dispatch)
+    - [Action & State Modification Exercise](#action--state-modification-exercise)
+    - [Action & State Modification Solution](#action--state-modification-solution)
+    - [React.memo & useCallback](#reactmemo--usecallback)
   - [**05. Context**](#05-context)
   - [**06. Data Fetching**](#06-data-fetching)
   - [**07. Thunks**](#07-thunks)
@@ -643,6 +650,24 @@ const Counter = ({ max, step }) => {
 
 ### Persisting State & [useRef](https://reactjs.org/docs/hooks-reference.html#useref)
 
+#### How do lifecycle methods and hooks differ?
+
+```javascript
+componentDidUpdate() {
+  setTimeout(() => {
+    console.log(`Count: ${this.state.count}`);
+  }, 3000);
+}
+```
+
+```javascript
+React.useEffect(() => {
+  setTimeout(() => {
+    console.log(`Count: ${count}`);
+  }, 3000);
+}, [count]);
+```
+
 - access the DOM
 - keep any mutable value around 
 
@@ -676,9 +701,36 @@ const Counter = ({ max, step }) => {
 **[⬆ back to top](#table-of-contents)**
 
 ### useEffect & Cleanup
+
+```javascript
+useEffect(() => {
+  const id = setInterval(() => {
+    console.log(`Count: ${count}`);
+  }, 3000);
+  return () => clearInterval(id);
+}, [count])
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ## **04. Reducers**
+
+### useReducer Introduction
+**[⬆ back to top](#table-of-contents)**
+
+### Reducer Action & State
+**[⬆ back to top](#table-of-contents)**
+
+### Reducer Action Keys & dispatch
+**[⬆ back to top](#table-of-contents)**
+
+### Action & State Modification Exercise
+**[⬆ back to top](#table-of-contents)**
+
+### Action & State Modification Solution
+**[⬆ back to top](#table-of-contents)**
+
+### React.memo & useCallback
 **[⬆ back to top](#table-of-contents)**
 
 ## **05. Context**
