@@ -715,7 +715,49 @@ useEffect(() => {
 
 ## **04. Reducers**
 
-### useReducer Introduction
+### [useReducer](https://reactjs.org/docs/hooks-reference.html#usereducer) Introduction
+
+- [React's useReducer Hook vs Redux](https://www.robinwieruch.de/redux-vs-usereducer)
+- [Immer](https://github.com/immerjs/immer)
+- [Immutable](https://immutable-js.github.io/immutable-js/)
+
+| Redux                                                                             | useReducer                                                                  |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| **one** **global** state container                                                | independent component co-located state container                            |
+| combines all reducers to one ultimate reducer                                     | Not Available (Not one)                                                     |
+| one dispatch function that consumes any action dedicated for any reducer function | dispatch only deals with actions that are specified by the reducer function (Not global) |
+| comes with a rich middleware ecosystem                                            | no middleware for useReducer                                                |
+
+Redux Middleware
+- [redux-logger](https://github.com/LogRocket/redux-logger)
+- [redux-thunk](https://github.com/reduxjs/redux-thunk)
+- [redux-saga](https://github.com/redux-saga/redux-saga)
+
+| When?                             | What?                              |
+| --------------------------------- | ---------------------------------- |
+| simple/small size applications    | useState                           |
+| advanced/medium size applications | useState + useReducer + useContext |
+| complex/large size applications   | useState + Redux                   |
+
+```javascript
+  const [grudges, setGrudges] = useState(initialState);
+
+  const addGrudge = grudge => {
+    grudge.id = id();
+    grudge.forgiven = false;
+    setGrudges([grudge, ...grudges]);
+  };
+
+  const toggleForgiveness = id => {
+    setGrudges(
+      grudges.map(grudge => {
+        if (grudge.id !== id) return grudge;
+        return { ...grudge, forgiven: !grudge.forgiven };
+      })
+    );
+  };
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Reducer Action & State
