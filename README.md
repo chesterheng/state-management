@@ -761,6 +761,18 @@ Redux Middleware
 **[⬆ back to top](#table-of-contents)**
 
 ### Reducer Action & State
+
+```javascript
+const reducer = (state, action) => {
+  console.log({ action });
+  return state;
+};
+
+const Application = () => {
+  const [grudges, dispatch] = useReducer(reducer, initialState);
+}
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Reducer Action Keys & dispatch

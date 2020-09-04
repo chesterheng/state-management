@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 
 import id from 'uuid/v4';
 
@@ -7,22 +7,27 @@ import NewGrudge from './NewGrudge';
 
 import initialState from './initialState';
 
+const reducer = (state, action) => {
+  console.log({ action });
+  return state;
+};
+
 const Application = () => {
-  const [grudges, setGrudges] = useState(initialState);
+  const [grudges, dispatch] = useReducer(reducer, initialState);
 
   const addGrudge = grudge => {
     grudge.id = id();
     grudge.forgiven = false;
-    setGrudges([grudge, ...grudges]);
+    // setGrudges([grudge, ...grudges]);
   };
 
   const toggleForgiveness = id => {
-    setGrudges(
-      grudges.map(grudge => {
-        if (grudge.id !== id) return grudge;
-        return { ...grudge, forgiven: !grudge.forgiven };
-      })
-    );
+    // setGrudges(
+    //   grudges.map(grudge => {
+    //     if (grudge.id !== id) return grudge;
+    //     return { ...grudge, forgiven: !grudge.forgiven };
+    //   })
+    // );
   };
 
   return (
