@@ -776,6 +776,40 @@ const Application = () => {
 **[⬆ back to top](#table-of-contents)**
 
 ### Reducer Action Keys & dispatch
+
+[Flux Standard Action](https://github.com/redux-utilities/flux-standard-action)
+
+```javascript
+const GRUDGE_ADD = 'GRUDGE_ADD';
+const GRUDGE_FORGIVE = 'GRUDGE_FORGIVE';
+
+const reducer = (state, action) => {
+  if(action.type === GRUDGE_ADD) {
+    return [action.payload, ...state];
+  }
+
+  return state;
+};
+
+const Application = () => {
+  const [grudges, dispatch] = useReducer(reducer, initialState);
+
+  const addGrudge = ({ person, reason}) => {
+    dispatch({
+      type: GRUDGE_ADD,
+      payload: {
+        person,
+        reason,
+        forgiven: false,
+        id: id()
+      }
+    });
+  };
+
+  return ( ... );
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Action & State Modification Exercise
