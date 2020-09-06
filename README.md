@@ -1263,6 +1263,67 @@ const useFetch = url => {
 **[⬆ back to top](#table-of-contents)**
 
 ### Refactoring to a Custom Reducer
+
+```javascript
+const initialState = {
+  result: null,
+  loading: true,
+  error: null
+};
+
+const fetchReducer = (state, action) => {
+  if (action.type === 'FETCHING') {
+    return {
+      result: null,
+      loading: true,
+      error: null,
+    };
+  }
+
+  if (action.type === 'RESPONSE_COMPLETE') {
+    return {
+      result: action.payload.response,
+      loading: false,
+      error: null,
+    };
+  }
+
+  if (action.type === 'ERROR') {
+    return {
+      result: null,
+      loading: false,
+      error: action.payload.error,
+    };
+  }
+
+  return state;
+};
+
+const useFetch = url => {
+  const [state, dispatch] = useReducer(fetchReducer, initialState);
+
+  useEffect(() => {
+    dispatch({ type: 'FETCHING' });
+    const fetchUrl = async () => {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        dispatch({
+          type: 'RESPONSE_COMPLETE',
+          payload: { response: data },
+        });
+      } catch (error) {
+        dispatch({ type: 'ERROR', payload: { error } });
+      }
+    };
+
+    fetchUrl();
+  }, [url]);
+
+  return [state.result, state.loading, state.error];
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ## **07. Thunks**
