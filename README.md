@@ -43,6 +43,10 @@
     - [Context & useContext Hook](#context--usecontext-hook)
     - [Context Practice](#context-practice)
   - [**06. Data Fetching**](#06-data-fetching)
+    - [Data Fetching & useEffect Hook](#data-fetching--useeffect-hook)
+    - [Response, Loading, & Error](#response-loading--error)
+    - [Refactoring to a Custom Hook](#refactoring-to-a-custom-hook)
+    - [Refactoring to a Custom Reducer](#refactoring-to-a-custom-reducer)
   - [**07. Thunks**](#07-thunks)
 
 ## **01. Introduction**
@@ -1140,6 +1144,19 @@ Some Tasting Notes
 **[⬆ back to top](#table-of-contents)**
 
 ## **06. Data Fetching**
+
+[Star Wars Autocomplete](https://github.com/stevekinney/star-wars-characters-react-state)
+
+### Data Fetching & useEffect Hook
+**[⬆ back to top](#table-of-contents)**
+
+### Response, Loading, & Error
+**[⬆ back to top](#table-of-contents)**
+
+### Refactoring to a Custom Hook
+**[⬆ back to top](#table-of-contents)**
+
+### Refactoring to a Custom Reducer
 **[⬆ back to top](#table-of-contents)**
 
 ## **07. Thunks**
