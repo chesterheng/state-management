@@ -1383,24 +1383,57 @@ export const getAllItems = () => {
 const useThunkReducer = (reducer, initialState) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const enhancedDispatch = action => {
-    console.log(action);
+  const enhancedDispatch = useCallback(
+    action => {
+      console.log(action);
 
-    if (isFunction(action)) {
-      console.log('It is a thunk');
-      action(dispatch);
-    } else {
-      dispatch(action);
-    }
-  };
+      if (isFunction(action)) {
+        console.log('It is a thunk');
+        action(dispatch);
+      } else {
+        dispatch(action);
+      }
+    },
+    [dispatch],
+  );
 
   return [state, enhancedDispatch];
+};
+```
+
+```javascript
+const Application = () => {
+  const [state, dispatch] = useThunkReducer(reducer, initialState);
+  const { characters } = state;
+
+  useEffect(() => {
+    dispatch(dispatch => {});
+  }, [dispatch]);
+
+  return ( ... );
 };
 ```
 
 **[⬆ back to top](#table-of-contents)**
 
 ### Dispatching, Reducers & Hooks
+
+```javascript
+const fetchCharacters = dispatch => {
+  console.log('fetchCharacters');
+  dispatch({ type: 'LOADING' });
+  fetch(endpoint + '/characters')
+    .then(response => response.json())
+    .then(response =>
+      dispatch({
+        type: 'RESPONSE_COMPLETE',
+        payload: { characters: response.characters },
+      }),
+    )
+    .catch(error => dispatch({ type: 'ERROR', payload: { error } }));
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Routing & Thunks

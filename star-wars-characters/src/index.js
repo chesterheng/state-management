@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import isFunction from 'lodash/isFunction';
 
@@ -9,15 +9,15 @@ import endpoint from './endpoint';
 import './styles.scss';
 
 const initialState = {
-  result: null,
-  loading: true,
-  error: null
+  error: null,
+  loading: false,
+  characters: [],
 };
 
-const fetchReducer = (state, action) => {
-  if (action.type === 'FETCHING') {
+const reducer = (state, action) => {
+  if (action.type === 'LOADING') {
     return {
-      result: null,
+      characters: [],
       loading: true,
       error: null,
     };
@@ -25,7 +25,7 @@ const fetchReducer = (state, action) => {
 
   if (action.type === 'RESPONSE_COMPLETE') {
     return {
-      result: action.payload.response,
+      characters: action.payload.characters,
       loading: false,
       error: null,
     };
@@ -33,59 +33,57 @@ const fetchReducer = (state, action) => {
 
   if (action.type === 'ERROR') {
     return {
-      result: null,
+      characters: [],
       loading: false,
       error: action.payload.error,
     };
   }
-
+  console.log('no match in action')
   return state;
 };
 
-const useFetch = url => {
-  const [state, dispatch] = useReducer(fetchReducer, initialState);
-
-  useEffect(() => {
-    dispatch({ type: 'FETCHING' });
-    const fetchUrl = async () => {
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        dispatch({
-          type: 'RESPONSE_COMPLETE',
-          payload: { response: data },
-        });
-      } catch (error) {
-        dispatch({ type: 'ERROR', payload: { error } });
-      }
-    };
-
-    fetchUrl();
-  }, [url]);
-
-  return [state.result, state.loading, state.error];
+const fetchCharacters = dispatch => {
+  console.log('fetchCharacters');
+  dispatch({ type: 'LOADING' });
+  fetch(endpoint + '/characters')
+    .then(response => response.json())
+    .then(response =>
+      dispatch({
+        type: 'RESPONSE_COMPLETE',
+        payload: { characters: response.characters },
+      }),
+    )
+    .catch(error => dispatch({ type: 'ERROR', payload: { error } }));
 };
 
 const useThunkReducer = (reducer, initialState) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const enhancedDispatch = action => {
-    console.log(action);
+  const enhancedDispatch = useCallback(
+    action => {
+      console.log(action);
 
-    if (isFunction(action)) {
-      console.log('It is a thunk');
-      action(dispatch);
-    } else {
-      dispatch(action);
-    }
-  };
+      if (isFunction(action)) {
+        console.log('It is a thunk');
+        action(dispatch);
+      } else {
+        dispatch(action);
+      }
+    },
+    [dispatch],
+  );
 
   return [state, enhancedDispatch];
 };
 
 const Application = () => {
-  const [response, loading, error] = useFetch(`${endpoint}/characters`)
-  const characters = (response && response.characters) || [];
+  const [state, dispatch] = useThunkReducer(reducer, initialState);
+  const { characters } = state;
+
+  useEffect(() => {
+    console.log('useEffect')
+    dispatch(dispatch => dispatch({}));
+  }, [dispatch]);
 
   return (
     <div className="Application">
@@ -93,14 +91,12 @@ const Application = () => {
         <h1>Star Wars Characters</h1>
       </header>
       <main>
-      <section className="sidebar">
-        {loading ? (
-          <p className="loading">Loading…</p>
-        ) : (
+        <section className="sidebar">
+          <button onClick={() => dispatch(fetchCharacters)}>
+            Fetch Characters
+          </button>
           <CharacterList characters={characters} />
-        )}
-        {error && <p className="error">{error.message}</p>}
-      </section>
+        </section>
       </main>
     </div>
   );
