@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import isFunction from 'lodash/isFunction';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 import CharacterList from './CharacterList';
@@ -63,6 +64,23 @@ const useFetch = url => {
   }, [url]);
 
   return [state.result, state.loading, state.error];
+};
+
+const useThunkReducer = (reducer, initialState) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const enhancedDispatch = action => {
+    console.log(action);
+
+    if (isFunction(action)) {
+      console.log('It is a thunk');
+      action(dispatch);
+    } else {
+      dispatch(action);
+    }
+  };
+
+  return [state, enhancedDispatch];
 };
 
 const Application = () => {
