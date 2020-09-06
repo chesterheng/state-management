@@ -1148,6 +1148,20 @@ Some Tasting Notes
 [Star Wars Autocomplete](https://github.com/stevekinney/star-wars-characters-react-state)
 
 ### Data Fetching & useEffect Hook
+
+```javascript
+useEffect(() => {
+  console.log('Fetching');
+  fetch(`${endpoint}/characters`)
+    .then(response => response.json())
+    .then(response => {
+      console.log({ response });
+      setCharacters(Object.values(response.characters));
+    })
+    .catch(console.error);
+}, []);
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Response, Loading, & Error
