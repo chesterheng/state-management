@@ -1165,6 +1165,65 @@ useEffect(() => {
 **[⬆ back to top](#table-of-contents)**
 
 ### Response, Loading, & Error
+
+```javascript
+useEffect(() => {
+  console.log('Fetching');
+  
+  setLoading(true);
+  setCharacters([]);
+  setError(null);
+
+  fetch(`${endpoint}/characters`)
+    .then(response => response.json())
+    .then(response => {
+      setLoading(false);
+      console.log({ response });
+      setCharacters(Object.values(response.characters));
+    })
+    .catch(error => {
+      setLoading(false);
+      setError(error);
+    });
+}, []);
+```
+
+```javascript
+const useFetch = url => {
+  const [response, setResponse] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    console.log('Fetching');
+
+    setLoading(true);
+    setError(null);
+    setResponse(null);
+
+    fetch(url)
+      .then(response => response.json())
+      .then(response => {
+        setLoading(false);
+        setResponse(response);
+      })
+      .catch(error => {
+        setLoading(false);
+        setError(error);
+      });
+  }, [url]);
+
+  return [response, loading, error];
+};
+
+const Application = () => {
+  const [response, loading, error] = useFetch(`${endpoint}/characters`)
+  const characters = (response && response.characters) || [];
+
+  return ( ... )
+}
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Refactoring to a Custom Hook

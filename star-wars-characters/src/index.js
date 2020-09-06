@@ -7,19 +7,36 @@ import dummyData from './dummy-data';
 import endpoint from './endpoint';
 import './styles.scss';
 
-const Application = () => {
-  const [characters, setCharacters] = useState(dummyData);
+const useFetch = url => {
+  const [response, setResponse] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     console.log('Fetching');
-    fetch(`${endpoint}/characters`)
+
+    setLoading(true);
+    setError(null);
+    setResponse(null);
+
+    fetch(url)
       .then(response => response.json())
       .then(response => {
-        console.log({ response });
-        setCharacters(Object.values(response.characters));
+        setLoading(false);
+        setResponse(response);
       })
-      .catch(console.error);
-  }, []);
+      .catch(error => {
+        setLoading(false);
+        setError(error);
+      });
+  }, [url]);
+
+  return [response, loading, error];
+};
+
+const Application = () => {
+  const [response, loading, error] = useFetch(`${endpoint}/characters`)
+  const characters = (response && response.characters) || [];
 
   return (
     <div className="Application">
@@ -27,9 +44,14 @@ const Application = () => {
         <h1>Star Wars Characters</h1>
       </header>
       <main>
-        <section className="sidebar">
+      <section className="sidebar">
+        {loading ? (
+          <p className="loading">Loading…</p>
+        ) : (
           <CharacterList characters={characters} />
-        </section>
+        )}
+        {error && <p className="error">{error.message}</p>}
+      </section>
       </main>
     </div>
   );
