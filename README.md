@@ -1527,7 +1527,7 @@ export const GrudgeProvider = ({ children }) => {
 
 ```javascript
 const reducer = (state = defaultState, action) => {
-  
+
   if(action.type === UNDO) {
     const [newPresent, ...newPast] = state.past;
     return {
@@ -1547,6 +1547,92 @@ const reducer = (state = defaultState, action) => {
 **[⬆ back to top](#table-of-contents)**
 
 ### Redo Reducer Solution
+
+```javascript
+const reducer = (state = defaultState, action) => {
+
+  if(action.type === REDO) {
+    const [newPresent, ...newFuture] = state.future;
+    return {
+      past: [state.present, ...state.past],
+      present: newPresent,
+      future: newFuture
+    };
+  }
+
+  return state;
+};
+```
+
+```javascript
+const useUndoReducer = (reducer, initialState) => {
+  const undoState = {
+    past: [],
+    present: initialState,
+    future: []
+  };
+
+  const undoReducer = (state, action) => {
+    const newPresent = reducer(state.present, action);
+
+    if (action.type === UNDO) {
+      const [newPresent, ...newPast] = state.past;
+      return {
+        past: newPast,
+        present: newPresent,
+        future: [state.present, ...state.future]
+      };
+    }
+
+    if (action.type === REDO) {
+      const [newPresent, ...newFuture] = state.future;
+      return {
+        past: [state.present, ...state.past],
+        present: newPresent,
+        future: newFuture
+      };
+    }
+
+    return {
+      past: [state.present, ...state.past],
+      present: newPresent,
+      future: []
+    };
+  };
+
+  return useReducer(undoReducer, undoState);
+};
+
+const reducer = (state = initialState, action) => {
+  if(action.type === GRUDGE_ADD) {
+    return [
+      {
+        id: id(),
+        ...action.payload
+      },
+      ...state
+    ];
+  }
+  
+  if(action.type === GRUDGE_FORGIVE) {
+    return state.map(grudge => {
+      if (grudge.id === action.payload.id) {
+        return { ...grudge, forgiven: !grudge.forgiven };
+      }
+      return grudge;
+    });
+  }
+
+  return state;
+};
+
+export const GrudgeProvider = ({ children }) => {
+  const [state, dispatch] = useUndoReducer(reducer, initialState);
+  const grudges = state.present;
+  ...
+}
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Managing State in a Form
