@@ -1,14 +1,17 @@
-import React, { useState, memo } from 'react';
+import React, { useState, memo, useContext } from 'react';
+import { GrudgeContext } from './GrudgeContext';
 
-const NewGrudge = memo(({ onSubmit }) => {
+const NewGrudge = () => {
   const [person, setPerson] = useState('');
   const [reason, setReason] = useState('');
+
+  const { addGrudge } = useContext(GrudgeContext);
 
   console.log('Rendering New Grudge');
 
   const handleChange = event => {
     event.preventDefault();
-    onSubmit({ person, reason });
+    addGrudge({ person, reason });
   };
 
   return (
@@ -30,6 +33,6 @@ const NewGrudge = memo(({ onSubmit }) => {
       <input className="NewGrudge-submit button" type="submit" />
     </form>
   );
-});
+};
 
 export default NewGrudge;

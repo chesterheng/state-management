@@ -38,6 +38,10 @@
     - [Action & State Modification Solution](#action--state-modification-solution)
     - [React.memo & [useCallback](https://reactjs.org/docs/hooks-reference.html#usecallback)](#reactmemo--usecallback)
   - [**05. Context**](#05-context)
+    - [Prop Drilling & Context API](#prop-drilling--context-api)
+    - [Creating a Context Provider](#creating-a-context-provider)
+    - [Context & useContext Hook](#context--usecontext-hook)
+    - [Context Practice](#context-practice)
   - [**06. Data Fetching**](#06-data-fetching)
   - [**07. Thunks**](#07-thunks)
 
@@ -715,6 +719,8 @@ useEffect(() => {
 
 ## **04. Reducers**
 
+[Grudges](https://github.com/stevekinney/grudges-react-state)
+
 ### [useReducer](https://reactjs.org/docs/hooks-reference.html#usereducer) Introduction
 
 What’s the deal with useReducer()?
@@ -906,6 +912,231 @@ const Grudge = memo(({ grudge, onForgive }) => {
 **[⬆ back to top](#table-of-contents)**
 
 ## **05. Context**
+
+### Prop Drilling & Context API
+
+What is [prop drilling](https://kentcdodds.com/blog/prop-drilling)?
+
+- Prop drilling (also called "threading") refers to the process you have to go through to get data to parts of the React Component tree.
+
+What problems can prop drilling cause?
+
+- Refactor the shape of some data
+- Over-forwarding props
+- Under-forwarding props
+- Renaming props
+
+**[⬆ back to top](#table-of-contents)**
+
+### Creating a Context Provider
+
+[Context](https://reactjs.org/docs/context.html) provides a way to pass data 
+through the component tree without having 
+to pass props down manually at every level.
+
+- createContext() -> Provider
+- createContext() -> Consumer
+
+```javascript
+import React from 'react';
+const SuperCoolContext = React.createContext();
+SuperCoolContext.Provider;
+SuperCoolContext.Consumer;
+
+<CountContext.Provider value={0}>
+  <CountContext.Consumer>
+    { value => <p>{value}</p> }
+  </CountContext.Consumer>
+</CountContext.Provider>
+```
+
+We're going to rip a lot out of Application.js and move it to a new file called GrudgeContext.js and it's going to look something like this.
+
+```javascript
+import React, { useReducer, createContext, useCallback } from 'react';
+import initialState from './initialState';
+import id from 'uuid/v4';
+
+export const GrudgeContext = createContext();
+
+const GRUDGE_ADD = 'GRUDGE_ADD';
+const GRUDGE_FORGIVE = 'GRUDGE_FORGIVE';
+
+const reducer = (state = [], action) => {
+  if (action.type === GRUDGE_ADD) {
+    return [
+      {
+        id: id(),
+        ...action.payload
+      },
+      ...state
+    ];
+  }
+
+  if (action.type === GRUDGE_FORGIVE) {
+    return state.map(grudge => {
+      if (grudge.id === action.payload.id) {
+        return { ...grudge, forgiven: !grudge.forgiven };
+      }
+      return grudge;
+    });
+  }
+
+  return state;
+};
+
+export const GrudgeProvider = ({ children }) => {
+  const [grudges, dispatch] = useReducer(reducer, initialState);
+
+  const addGrudge = useCallback(
+    ({ person, reason }) => {
+      dispatch({
+        type: GRUDGE_ADD,
+        payload: {
+          person,
+          reason
+        }
+      });
+    },
+    [dispatch]
+  );
+
+  const toggleForgiveness = useCallback(
+    id => {
+      dispatch({
+        type: GRUDGE_FORGIVE,
+        payload: {
+          id
+        }
+      });
+    },
+    [dispatch]
+  );
+
+  return (
+    <GrudgeContext.Provider value={{ grudges, addGrudge, toggleForgiveness }}>
+      {children}
+    </GrudgeContext.Provider>
+  );
+};
+```
+
+Now, Application.js looks a lot more slimmed down.
+
+```javascript
+import React from 'react';
+
+import Grudges from './Grudges';
+import NewGrudge from './NewGrudge';
+
+const Application = () => {
+  return (
+    <div className="Application">
+      <NewGrudge />
+      <Grudges />
+    </div>
+  );
+};
+
+export default Application;
+```
+
+Wrapping the Application in Your New Provider
+
+```javascript
+ReactDOM.render(
+  <GrudgeProvider>
+    <Application />
+  </GrudgeProvider>,
+  rootElement
+);
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Context & useContext Hook
+
+```javascript
+import React, { useContext } from 'react';
+import Grudge from './Grudge';
+import { GrudgeContext } from './GrudgeContext';
+
+const Grudges = () => {
+  const { grudges } = useContext(GrudgeContext);
+
+  return (
+    <section className="Grudges">
+      <h2>Grudges ({grudges.length})</h2>
+      {grudges.map(grudge => (
+        <Grudge key={grudge.id} grudge={grudge} />
+      ))}
+    </section>
+  );
+};
+
+export default Grudges;
+```
+
+```javascript
+import React, { memo, useContext } from 'react';
+import { GrudgeContext } from './GrudgeContext';
+
+const Grudge = ({ grudge }) => {
+  const { toggleForgiveness } = useContext(GrudgeContext);
+
+  return (
+    <article className="Grudge">
+      <h3>{grudge.person}</h3>
+      <p>{grudge.reason}</p>
+      <div className="Grudge-controls">
+        <label className="Grudge-forgiven">
+          <input 
+            type="checkbox" 
+            checked={grudge.forgiven} 
+            onChange={() => toggleForgiveness(grudge.id)}
+          />{' '}
+          Forgiven
+        </label>
+      </div>
+    </article>
+  );
+};
+
+export default Grudge;
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Context Practice
+
+```javascript
+import React, { useState, memo, useContext } from 'react';
+import { GrudgeContext } from './GrudgeContext';
+
+const NewGrudge = () => {
+  const [person, setPerson] = useState('');
+  const [reason, setReason] = useState('');
+
+  const { addGrudge } = useContext(GrudgeContext);
+
+  const handleChange = event => {
+    event.preventDefault();
+    addGrudge({ person, reason });
+  };
+
+  return ( ... );
+};
+
+export default NewGrudge;
+```
+
+Some Tasting Notes
+
+- We lost all of our performance optimizations when moving to the Context API.
+- What’s the right answer? It’s a trade off.
+- Grudge List might seem like a toy application, but it could also represent a smaller part of a larger system.
+- Could you use the Context API to get things all of the way down to this level and then use the approach we had previously?
+
 **[⬆ back to top](#table-of-contents)**
 
 ## **06. Data Fetching**

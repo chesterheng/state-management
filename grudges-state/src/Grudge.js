@@ -1,7 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo, useContext } from 'react';
+import { GrudgeContext } from './GrudgeContext';
 
-const Grudge = memo(({ grudge, onForgive }) => {
-  const forgive = () => onForgive(grudge.id);
+const Grudge = ({ grudge }) => {
+  const { toggleForgiveness } = useContext(GrudgeContext);
 
   console.log('Rendering Grudge', grudge);
   
@@ -11,12 +12,16 @@ const Grudge = memo(({ grudge, onForgive }) => {
       <p>{grudge.reason}</p>
       <div className="Grudge-controls">
         <label className="Grudge-forgiven">
-          <input type="checkbox" checked={grudge.forgiven} onChange={forgive} />{' '}
+          <input 
+            type="checkbox" 
+            checked={grudge.forgiven} 
+            onChange={() => toggleForgiveness(grudge.id)}
+          />{' '}
           Forgiven
         </label>
       </div>
     </article>
   );
-});
+};
 
 export default Grudge;
