@@ -1524,6 +1524,23 @@ export const GrudgeProvider = ({ children }) => {
 **[⬆ back to top](#table-of-contents)**
 
 ### Undo Reducer
+
+```javascript
+const reducer = (state = defaultState, action) => {
+  
+  if(action.type === UNDO) {
+    const [newPresent, ...newPast] = state.past;
+    return {
+      past: newPast,
+      present: newPresent,
+      future: [state.present, ...state.future]
+    };
+  }
+
+  return state;
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Redo Reducer Exercise

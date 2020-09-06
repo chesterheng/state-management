@@ -45,6 +45,16 @@ const reducer = (state = defaultState, action) => {
       future: []
     };
   }
+
+  if(action.type === UNDO) {
+    const [newPresent, ...newPast] = state.past;
+    return {
+      past: newPast,
+      present: newPresent,
+      future: [state.present, ...state.future]
+    };
+  }
+
   return state;
 };
 
