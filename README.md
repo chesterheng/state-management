@@ -1338,6 +1338,43 @@ const useFetch = url => {
 ## **07. Thunks**
 
 ### What is a Thunk
+
+- a function returned from another function.
+
+```javascript
+function definitelyNotAThunk() {
+  return function aThunk() {
+    console.log('Hello, I am a thunk.')
+  }
+}
+```
+
+But, why is this useful?
+
+- The major idea behind a thunk is that it is code to be executed later.
+
+We’ve been a bit quiet about asynchronous code.
+
+- Here is the thing with reducers— they only accept objects as actions.
+
+```javascript
+export const getAllItems = () => ({
+  type: UPDATE_ALL_ITEMS,
+  items,
+});
+
+export const getAllItems = () => {
+  return dispatch => {
+    Api.getAll().then(items => {
+      dispatch({
+        type: UPDATE_ALL_ITEMS,
+        items,
+      });
+    });
+  };
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### useThunkReducer Hook
