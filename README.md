@@ -48,6 +48,15 @@
     - [Refactoring to a Custom Hook](#refactoring-to-a-custom-hook)
     - [Refactoring to a Custom Reducer](#refactoring-to-a-custom-reducer)
   - [**07. Thunks**](#07-thunks)
+    - [What is a Thunk](#what-is-a-thunk)
+    - [useThunkReducer Hook](#usethunkreducer-hook)
+    - [Dispatching, Reducers & Hooks](#dispatching-reducers--hooks)
+    - [Routing & Thunks](#routing--thunks)
+    - [Implementing Undo & Redo](#implementing-undo--redo)
+    - [Undo Reducer](#undo-reducer)
+    - [Redo Reducer Exercise](#redo-reducer-exercise)
+    - [Redo Reducer Solution](#redo-reducer-solution)
+    - [Managing State in a Form](#managing-state-in-a-form)
 
 ## **01. Introduction**
 
@@ -1327,4 +1336,30 @@ const useFetch = url => {
 **[⬆ back to top](#table-of-contents)**
 
 ## **07. Thunks**
+
+### What is a Thunk
+**[⬆ back to top](#table-of-contents)**
+
+### useThunkReducer Hook
+**[⬆ back to top](#table-of-contents)**
+
+### Dispatching, Reducers & Hooks
+**[⬆ back to top](#table-of-contents)**
+
+### Routing & Thunks
+**[⬆ back to top](#table-of-contents)**
+
+### Implementing Undo & Redo
+**[⬆ back to top](#table-of-contents)**
+
+### Undo Reducer
+**[⬆ back to top](#table-of-contents)**
+
+### Redo Reducer Exercise
+**[⬆ back to top](#table-of-contents)**
+
+### Redo Reducer Solution
+**[⬆ back to top](#table-of-contents)**
+
+### Managing State in a Form
 **[⬆ back to top](#table-of-contents)**
