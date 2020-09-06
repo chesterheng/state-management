@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-const Grudge = ({ grudge, onForgive }) => {
+const Grudge = memo(({ grudge, onForgive }) => {
   const forgive = () => onForgive(grudge.id);
 
   console.log('Rendering Grudge', grudge);
@@ -17,6 +17,6 @@ const Grudge = ({ grudge, onForgive }) => {
       </div>
     </article>
   );
-};
+});
 
 export default Grudge;

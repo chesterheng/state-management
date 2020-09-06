@@ -36,7 +36,7 @@
     - [Reducer Action Keys & dispatch](#reducer-action-keys--dispatch)
     - [Action & State Modification Exercise](#action--state-modification-exercise)
     - [Action & State Modification Solution](#action--state-modification-solution)
-    - [React.memo & useCallback](#reactmemo--usecallback)
+    - [React.memo & [useCallback](https://reactjs.org/docs/hooks-reference.html#usecallback)](#reactmemo--usecallback)
   - [**05. Context**](#05-context)
   - [**06. Data Fetching**](#06-data-fetching)
   - [**07. Thunks**](#07-thunks)
@@ -855,7 +855,54 @@ const Application = () => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### React.memo & useCallback
+### [React.memo](https://reactjs.org/docs/react-api.html#reactmemo) & [useCallback](https://reactjs.org/docs/hooks-reference.html#usecallback)
+
+Memoization
+
+- React.memo - render when prop changes
+- useCallback - give a new function when prop changes
+- useMemo - execute function when prop changes
+- Wrap the action creators in useCallback
+- Wrap NewGrudge and Grudge in React.memo
+- Notice how we can reduce re-renders
+
+```javascript
+  const addGrudge = useCallback(
+    ({ person, reason}) => {
+      dispatch({
+        type: GRUDGE_ADD,
+        payload: {
+          person,
+          reason,
+          forgiven: false,
+          id: id()
+        }
+      });
+    },
+    [dispatch]
+  );
+
+  const toggleForgiveness = useCallback(
+    id => {
+      dispatch({
+        type: GRUDGE_FORGIVE,
+        payload: { id }
+      });
+    },
+    [dispatch]
+  );
+```
+
+```javascript
+const NewGrudge = memo(({ onSubmit }) => {
+  return ( ...);
+});
+
+const Grudge = memo(({ grudge, onForgive }) => {  
+  return ( ... );
+});
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ## **05. Context**
