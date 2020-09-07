@@ -2303,6 +2303,14 @@ ReactDOM.render(
 **[⬆ back to top](#table-of-contents)**
 
 #### Redux DevTools
+
+```javascript
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Using State Store in Components
