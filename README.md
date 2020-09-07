@@ -1887,9 +1887,46 @@ console.log(makeLouderAndBoldAndRepeatThreeTimes('hello'))
 **[⬆ back to top](#table-of-contents)**
 
 #### reducer & createStore
+
+```javascript
+const reducer = (state = { value: 1 }, action) => {
+  return state;  
+};
+
+const store = createStore(reducer);
+store.getState();
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Store dispatch & subscribe
+
+```javascript
+const reducer = (state = { value: 1 }, action) => {
+  console.log('Something happened!', action);
+  if(action.type === 'ADD') {
+    const value = state.value;
+    const amount = action.payload.amount;
+    return { value: value + amount };
+  }
+  return state;  
+};
+
+const store = createStore(reducer);
+const first = store.getState();
+store.dispatch({ type: 'ADD', payload: { amount: 2 } });
+const second = store.getState();
+first === second
+```
+
+```javascript
+const store = createStore(reducer);
+const unsubscribe = store.subscribe(() => console.log(store.getState().value));
+store.dispatch({ type: 'ADD', payload: { amount: 2 } });
+store.dispatch({ type: 'ADD', payload: { amount: 2 } });
+unsubscribe()
+store.dispatch({ type: 'ADD', payload: { amount: 2 } });
+```
 **[⬆ back to top](#table-of-contents)**
 
 #### combineReducers
