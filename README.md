@@ -57,6 +57,7 @@
     - [Redo Reducer Exercise](#redo-reducer-exercise)
     - [Redo Reducer Solution](#redo-reducer-solution)
     - [Managing State in a Form](#managing-state-in-a-form)
+  - [**08. Wrapping Up**](#08-wrapping-up)
 
 ## **01. Introduction**
 
@@ -1698,5 +1699,11 @@ const UserSignup = () => {
   );
 };
 ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## **08. Wrapping Up**
+
+[Collection of React Hooks](https://nikgraf.github.io/react-hooks)
 
 **[⬆ back to top](#table-of-contents)**
