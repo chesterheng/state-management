@@ -1833,6 +1833,19 @@ const moreExtended = [ ...original, ...extended ];
 **[⬆ back to top](#table-of-contents)**
 
 #### Single State Store & Reducers
+
+Redux without React
+
+What is Redux?
+
+- We’re going to start by explaining Redux outside of the context of React.
+- The whole state tree of your application is kept in one store.
+- Just one plain old JavaScript object.
+- One does not simply modify the state tree.
+- Instead, we dispatch actions.
+
+![](img/reducer.jpg)
+
 **[⬆ back to top](#table-of-contents)**
 
 ### **02. Redux Functions**
