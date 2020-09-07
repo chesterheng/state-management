@@ -62,6 +62,9 @@
   - [State Management with Redux & MobX](#state-management-with-redux--mobx)
     - [**01. Introduction**](#01-introduction-1)
       - [Introduction](#introduction)
+      - [Pure & Impure Functions](#pure--impure-functions)
+      - [Copy Instead of Mutate](#copy-instead-of-mutate)
+      - [Single State Store & Reducers](#single-state-store--reducers)
     - [**02. Redux Functions**](#02-redux-functions)
     - [**03. Redux & React**](#03-redux--react)
     - [**04. Redux Libraries**](#04-redux-libraries)
@@ -1757,13 +1760,44 @@ What kind of applications are we going to build today?
 
 **[⬆ back to top](#table-of-contents)**
 
-Pure & Impure Functions
+#### Pure & Impure Functions
+
+- Pure functions take arguments and return values based on those arguments.
+```javascript
+const add = (a, b) => {
+  return a + b;
+}
+```
+- Impure functions an mutate things from outside their scope or produce side effects.
+- Mutating arrays and objects is also impure.
+```javascript
+const b;
+const add = (a) => {
+  return a + b;
+}
+```
+
+```javascript
+const add = (a, b) => {
+  console.log('lolololol');
+  return a + b;
+}
+```
+
+```javascript
+const add = (a, b) => {
+  Api.post('/add', { a, b }, (response)  => {
+    // Do something.
+  })
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
 
-Copy Instead of Mutate
+#### Copy Instead of Mutate
 **[⬆ back to top](#table-of-contents)**
 
-Single State Store & Reducers
+#### Single State Store & Reducers
 **[⬆ back to top](#table-of-contents)**
 
 ### **02. Redux Functions**
