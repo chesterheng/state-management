@@ -66,6 +66,12 @@
       - [Copy Instead of Mutate](#copy-instead-of-mutate)
       - [Single State Store & Reducers](#single-state-store--reducers)
     - [**02. Redux Functions**](#02-redux-functions)
+      - [Redux Functions Overview](#redux-functions-overview)
+      - [reducer & createStore](#reducer--createstore)
+      - [Store dispatch & subscribe](#store-dispatch--subscribe)
+      - [combineReducers](#combinereducers)
+      - [bindActionCreators](#bindactioncreators)
+      - [Middleware in Redux](#middleware-in-redux)
     - [**03. Redux & React**](#03-redux--react)
     - [**04. Redux Libraries**](#04-redux-libraries)
     - [**05. MobX**](#05-mobx)
@@ -1849,6 +1855,23 @@ What is Redux?
 **[⬆ back to top](#table-of-contents)**
 
 ### **02. Redux Functions**
+
+#### Redux Functions Overview
+**[⬆ back to top](#table-of-contents)**
+
+#### reducer & createStore
+**[⬆ back to top](#table-of-contents)**
+
+#### Store dispatch & subscribe
+**[⬆ back to top](#table-of-contents)**
+
+#### combineReducers
+**[⬆ back to top](#table-of-contents)**
+
+#### bindActionCreators
+**[⬆ back to top](#table-of-contents)**
+
+#### Middleware in Redux
 **[⬆ back to top](#table-of-contents)**
 
 ### **03. Redux & React**
