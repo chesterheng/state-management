@@ -1932,12 +1932,10 @@ store.dispatch({ type: 'ADD', payload: { amount: 2 } });
 #### combineReducers
 
 ```javascript
-const initialState = { 
-  calculator: 0,
-  error: 'No error'
-};
+// state = { calculator: { value: 0 }, error: { message: '' } }
 
-const calculatorReducer = (state = { value: 1 }, action) => {
+const initialState = { value: 0 };
+const calculatorReducer = (state = initialState, action) => {
   if (action.type === 'ADD') {
     const value = state.value;
     const amount = action.payload.amount;
@@ -1946,8 +1944,18 @@ const calculatorReducer = (state = { value: 1 }, action) => {
   return state;  
 }
 
+const initialError = { message: '' };
+const errorMessageReducer = (state = initialError, action) => {
+  if (action.type === 'SET_ERROR_MESSAGE')
+    return { message: action.message };
+  if (action.type === 'CLEAR_ERROR_MESSAGE')
+    return { message: '' };
+  return state;
+};
+
 const reducer = combineReducers({
-  calculator: calculatorReducer
+  calculator: calculatorReducer,
+  error: errorMessageReducer
 });
 
 const store = createStore(reducer);
@@ -1996,6 +2004,24 @@ const errors = bindActionCreatorz({
 **[⬆ back to top](#table-of-contents)**
 
 #### Middleware in Redux
+
+```javascript
+const logger = ({ getState }) => {
+  return next => action => {
+    console.log(
+      'MIDDLEWARE',
+      getState(),
+      action
+    );
+    const value = next(action);
+    console.log({value});
+    return value;
+  }
+};
+
+const store = createStore(reducer, applyMiddleware(logger));
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### **03. Redux & React**
