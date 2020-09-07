@@ -3,69 +3,79 @@
 ## Table of Contents
 - [State Management](#state-management)
   - [Table of Contents](#table-of-contents)
-  - [**01. Introduction**](#01-introduction)
-    - [Types of State](#types-of-state)
-  - [**02. Class-Based State**](#02-class-based-state)
-    - [setState & Class](#setstate--class)
-    - [setState & Asynchronicity](#setstate--asynchronicity)
-    - [setState & Function](#setstate--function)
-    - [setState & Callback](#setstate--callback)
-    - [setState & Helper Function](#setstate--helper-function)
-    - [document.title Exercise](#documenttitle-exercise)
-    - [document.title Solution](#documenttitle-solution)
-    - [setState Patterns](#setstate-patterns)
-      - [When we’re working with props, we have PropTypes. That’s not the case with state.](#when-were-working-with-props-we-have-proptypes-thats-not-the-case-with-state)
-      - [Don’t use this.state for derivations of props.](#dont-use-thisstate-for-derivations-of-props)
-      - [Don’t do this. Instead, derive computed properties directly from the props themselves.](#dont-do-this-instead-derive-computed-properties-directly-from-the-props-themselves)
-      - [You don’t need to shove everything into your render method.](#you-dont-need-to-shove-everything-into-your-render-method)
-      - [You can break things out into helper methods.](#you-can-break-things-out-into-helper-methods)
-      - [Don’t use state for things you’re not going to render.](#dont-use-state-for-things-youre-not-going-to-render)
-      - [Use sensible defaults.](#use-sensible-defaults)
-  - [**03. Hooks State**](#03-hooks-state)
-    - [Refactoring & Hooks](#refactoring--hooks)
-    - [useEffect & Dependencies](#useeffect--dependencies)
-    - [useEffect Exercise](#useeffect-exercise)
-    - [useEffect Solution](#useeffect-solution)
-    - [Refactoring & Custom Hook](#refactoring--custom-hook)
-    - [Persisting State & useRef](#persisting-state--useref)
-      - [How do lifecycle methods and hooks differ?](#how-do-lifecycle-methods-and-hooks-differ)
-    - [useEffect & Cleanup](#useeffect--cleanup)
-  - [**04. Reducers**](#04-reducers)
-    - [useReducer Introduction](#usereducer-introduction)
-    - [Reducer Action & State](#reducer-action--state)
-    - [Reducer Action Keys & dispatch](#reducer-action-keys--dispatch)
-    - [Action & State Modification Exercise](#action--state-modification-exercise)
-    - [Action & State Modification Solution](#action--state-modification-solution)
-    - [React.memo & [useCallback](https://reactjs.org/docs/hooks-reference.html#usecallback)](#reactmemo--usecallback)
-  - [**05. Context**](#05-context)
-    - [Prop Drilling & Context API](#prop-drilling--context-api)
-    - [Creating a Context Provider](#creating-a-context-provider)
-    - [Context & useContext Hook](#context--usecontext-hook)
-    - [Context Practice](#context-practice)
-  - [**06. Data Fetching**](#06-data-fetching)
-    - [Data Fetching & useEffect Hook](#data-fetching--useeffect-hook)
-    - [Response, Loading, & Error](#response-loading--error)
-    - [Refactoring to a Custom Hook](#refactoring-to-a-custom-hook)
-    - [Refactoring to a Custom Reducer](#refactoring-to-a-custom-reducer)
-  - [**07. Thunks**](#07-thunks)
-    - [What is a Thunk](#what-is-a-thunk)
-    - [useThunkReducer Hook](#usethunkreducer-hook)
-    - [Dispatching, Reducers & Hooks](#dispatching-reducers--hooks)
-    - [Routing & Thunks](#routing--thunks)
-    - [Implementing Undo & Redo](#implementing-undo--redo)
-    - [Undo Reducer](#undo-reducer)
-    - [Redo Reducer Exercise](#redo-reducer-exercise)
-    - [Redo Reducer Solution](#redo-reducer-solution)
-    - [Managing State in a Form](#managing-state-in-a-form)
-  - [**08. Wrapping Up**](#08-wrapping-up)
+  - [State Management in Pure React, v2](#state-management-in-pure-react-v2)
+    - [**01. Introduction**](#01-introduction)
+      - [Types of State](#types-of-state)
+    - [**02. Class-Based State**](#02-class-based-state)
+      - [setState & Class](#setstate--class)
+      - [setState & Asynchronicity](#setstate--asynchronicity)
+      - [setState & Function](#setstate--function)
+      - [setState & Callback](#setstate--callback)
+      - [setState & Helper Function](#setstate--helper-function)
+      - [document.title Exercise](#documenttitle-exercise)
+      - [document.title Solution](#documenttitle-solution)
+      - [setState Patterns](#setstate-patterns)
+        - [When we’re working with props, we have PropTypes. That’s not the case with state.](#when-were-working-with-props-we-have-proptypes-thats-not-the-case-with-state)
+        - [Don’t use this.state for derivations of props.](#dont-use-thisstate-for-derivations-of-props)
+        - [Don’t do this. Instead, derive computed properties directly from the props themselves.](#dont-do-this-instead-derive-computed-properties-directly-from-the-props-themselves)
+        - [You don’t need to shove everything into your render method.](#you-dont-need-to-shove-everything-into-your-render-method)
+        - [You can break things out into helper methods.](#you-can-break-things-out-into-helper-methods)
+        - [Don’t use state for things you’re not going to render.](#dont-use-state-for-things-youre-not-going-to-render)
+        - [Use sensible defaults.](#use-sensible-defaults)
+    - [**03. Hooks State**](#03-hooks-state)
+      - [Refactoring & Hooks](#refactoring--hooks)
+      - [useEffect & Dependencies](#useeffect--dependencies)
+      - [useEffect Exercise](#useeffect-exercise)
+      - [useEffect Solution](#useeffect-solution)
+      - [Refactoring & Custom Hook](#refactoring--custom-hook)
+      - [Persisting State & useRef](#persisting-state--useref)
+        - [How do lifecycle methods and hooks differ?](#how-do-lifecycle-methods-and-hooks-differ)
+      - [useEffect & Cleanup](#useeffect--cleanup)
+    - [**04. Reducers**](#04-reducers)
+      - [useReducer Introduction](#usereducer-introduction)
+      - [Reducer Action & State](#reducer-action--state)
+      - [Reducer Action Keys & dispatch](#reducer-action-keys--dispatch)
+      - [Action & State Modification Exercise](#action--state-modification-exercise)
+      - [Action & State Modification Solution](#action--state-modification-solution)
+      - [React.memo & useCallback](#reactmemo--usecallback)
+    - [**05. Context**](#05-context)
+      - [Prop Drilling & Context API](#prop-drilling--context-api)
+      - [Creating a Context Provider](#creating-a-context-provider)
+      - [Context & useContext Hook](#context--usecontext-hook)
+      - [Context Practice](#context-practice)
+    - [**06. Data Fetching**](#06-data-fetching)
+      - [Data Fetching & useEffect Hook](#data-fetching--useeffect-hook)
+      - [Response, Loading, & Error](#response-loading--error)
+      - [Refactoring to a Custom Hook](#refactoring-to-a-custom-hook)
+      - [Refactoring to a Custom Reducer](#refactoring-to-a-custom-reducer)
+    - [**07. Thunks**](#07-thunks)
+      - [What is a Thunk](#what-is-a-thunk)
+      - [useThunkReducer Hook](#usethunkreducer-hook)
+      - [Dispatching, Reducers & Hooks](#dispatching-reducers--hooks)
+      - [Routing & Thunks](#routing--thunks)
+      - [Implementing Undo & Redo](#implementing-undo--redo)
+      - [Undo Reducer](#undo-reducer)
+      - [Redo Reducer Exercise](#redo-reducer-exercise)
+      - [Redo Reducer Solution](#redo-reducer-solution)
+      - [Managing State in a Form](#managing-state-in-a-form)
+    - [**08. Wrapping Up**](#08-wrapping-up)
+  - [State Management with Redux & MobX](#state-management-with-redux--mobx)
+    - [**01. Introduction**](#01-introduction-1)
+    - [**02. Redux Functions**](#02-redux-functions)
+    - [**03. Redux & React**](#03-redux--react)
+    - [**04. Redux Libraries**](#04-redux-libraries)
+    - [**05. MobX**](#05-mobx)
+    - [**06. Wrapping Up**](#06-wrapping-up)
 
-## **01. Introduction**
+## State Management in Pure React, v2
+
+### **01. Introduction**
 
 The main job of React is to take your application state and turn it into DOM nodes.
 
 [pure-react-state-management](https://github.com/FrontendMasters/pure-react-state-management)
 
-### Types of State
+#### Types of State
 
 There are many kinds of state.
 - Model data: The nouns in your application.
@@ -85,9 +95,9 @@ Or, it might make sense to think about state relative to time.
 
 **[⬆ back to top](#table-of-contents)**
 
-## **02. Class-Based State**
+### **02. Class-Based State**
 
-### setState & Class
+#### setState & Class
 
 ```javascript
 import React, { Component } from 'react';
@@ -137,7 +147,7 @@ export default Counter;
 
 **[⬆ back to top](#table-of-contents)**
 
-### setState & Asynchronicity
+#### setState & Asynchronicity
 
 ```javascript
 // this.setState() is asynchronous.
@@ -178,7 +188,7 @@ const newState = {
 
 **[⬆ back to top](#table-of-contents)**
 
-### setState & Function
+#### setState & Function
 
 - There is actually a bit more to this.setState().
 - Did you know that you can also pass a function in as an argument?
@@ -216,7 +226,7 @@ export default class Counter extends Component {
 
 **[⬆ back to top](#table-of-contents)**
 
-### setState & Callback
+#### setState & Callback
 
 ```javascript
 import React, { Component } from 'react';
@@ -234,7 +244,7 @@ export default class Counter extends Component {
 
 **[⬆ back to top](#table-of-contents)**
 
-### setState & Helper Function
+#### setState & Helper Function
 
 ```javascript
 const getStateFromLocalStorage = () => {
@@ -277,8 +287,8 @@ class Counter extends Component {
 
 **[⬆ back to top](#table-of-contents)**
 
-### document.title Exercise
-### document.title Solution
+#### document.title Exercise
+#### document.title Solution
 
 ```javascript
 class Counter extends Component {
@@ -315,9 +325,9 @@ class Counter extends Component {
 
 **[⬆ back to top](#table-of-contents)**
 
-### setState Patterns
+#### setState Patterns
 
-#### When we’re working with props, we have PropTypes. That’s not the case with state.
+##### When we’re working with props, we have PropTypes. That’s not the case with state.
 
 ```javascript
 function shouldIKeepSomethingInReactState(){
@@ -341,7 +351,7 @@ function shouldIKeepSomethingInReactState(){
 
 **[⬆ back to top](#table-of-contents)**
 
-#### Don’t use this.state for derivations of props.
+##### Don’t use this.state for derivations of props.
 
 ```javascript
 class User extends Component {
@@ -356,7 +366,7 @@ class User extends Component {
 
 **[⬆ back to top](#table-of-contents)**
 
-#### Don’t do this. Instead, derive computed properties directly from the props themselves.
+##### Don’t do this. Instead, derive computed properties directly from the props themselves.
 
 ```javascript
 class User extends Component {
@@ -385,8 +395,8 @@ class User extends Component {
 
 **[⬆ back to top](#table-of-contents)**
 
-#### You don’t need to shove everything into your render method.
-#### You can break things out into helper methods.
+##### You don’t need to shove everything into your render method.
+##### You can break things out into helper methods.
 
 ```javascript
 class UserList extends Component {
@@ -458,7 +468,7 @@ const UserList = ({ users }) => {
 
 **[⬆ back to top](#table-of-contents)**
 
-#### Don’t use state for things you’re not going to render.
+##### Don’t use state for things you’re not going to render.
 
 ```javascript
 class TweetStream extends Component {
@@ -506,7 +516,7 @@ class TweetStream extends Component {
 
 **[⬆ back to top](#table-of-contents)**
 
-#### Use sensible defaults.
+##### Use sensible defaults.
 
 ```javascript
 class Items extends Component {
@@ -545,9 +555,9 @@ class Items extends Component {
 
 **[⬆ back to top](#table-of-contents)**
 
-## **03. Hooks State**
+### **03. Hooks State**
 
-### Refactoring & [Hooks](https://reactjs.org/docs/hooks-state.html)
+#### Refactoring & [Hooks](https://reactjs.org/docs/hooks-state.html)
 
 ```javascript
 const [count, setCount] = React.useState(0);
@@ -581,7 +591,7 @@ setCount(c => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### [useEffect](https://reactjs.org/docs/hooks-effect.html) & Dependencies
+#### [useEffect](https://reactjs.org/docs/hooks-effect.html) & Dependencies
 
 Side effects
 
@@ -597,13 +607,13 @@ useEffect(() => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### useEffect Exercise
+#### useEffect Exercise
 
 Can you add a second effect that updates the document's title whenever the count changes?
 
 **[⬆ back to top](#table-of-contents)**
 
-### useEffect Solution
+#### useEffect Solution
 
 ```javascript
 const getStateFromLocalStorage = () => {
@@ -633,7 +643,7 @@ const Counter = ({ max, step }) => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Refactoring & [Custom Hook](https://reactjs.org/docs/hooks-custom.html)
+#### Refactoring & [Custom Hook](https://reactjs.org/docs/hooks-custom.html)
 
 ```javascript
 const useLocalStorage = (initialState, key) => {
@@ -666,9 +676,9 @@ const Counter = ({ max, step }) => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Persisting State & [useRef](https://reactjs.org/docs/hooks-reference.html#useref)
+#### Persisting State & [useRef](https://reactjs.org/docs/hooks-reference.html#useref)
 
-#### How do lifecycle methods and hooks differ?
+##### How do lifecycle methods and hooks differ?
 
 ```javascript
 componentDidUpdate() {
@@ -718,7 +728,7 @@ const Counter = ({ max, step }) => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### useEffect & Cleanup
+#### useEffect & Cleanup
 
 ```javascript
 useEffect(() => {
@@ -731,11 +741,11 @@ useEffect(() => {
 
 **[⬆ back to top](#table-of-contents)**
 
-## **04. Reducers**
+### **04. Reducers**
 
 [Grudges](https://github.com/stevekinney/grudges-react-state)
 
-### [useReducer](https://reactjs.org/docs/hooks-reference.html#usereducer) Introduction
+#### [useReducer](https://reactjs.org/docs/hooks-reference.html#usereducer) Introduction
 
 What’s the deal with useReducer()?
 
@@ -786,7 +796,7 @@ Redux Middleware
 
 **[⬆ back to top](#table-of-contents)**
 
-### Reducer Action & State
+#### Reducer Action & State
 
 ```javascript
 const reducer = (state, action) => {
@@ -801,7 +811,7 @@ const Application = () => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Reducer Action Keys & dispatch
+#### Reducer Action Keys & dispatch
 
 [Flux Standard Action](https://github.com/redux-utilities/flux-standard-action)
 
@@ -838,7 +848,7 @@ const Application = () => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Action & State Modification Exercise
+#### Action & State Modification Exercise
 
 - Be a better person than me.
 - I’ve implemented the ability to add a grudge. 
@@ -846,7 +856,7 @@ const Application = () => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Action & State Modification Solution
+#### Action & State Modification Solution
 
 ```javascript
 const reducer = (state, action) => {
@@ -875,12 +885,12 @@ const Application = () => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### [React.memo](https://reactjs.org/docs/react-api.html#reactmemo) & [useCallback](https://reactjs.org/docs/hooks-reference.html#usecallback)
+#### React.memo & useCallback
 
 Memoization
 
-- React.memo - render when prop changes
-- useCallback - give a new function when prop changes
+- [React.memo](https://reactjs.org/docs/react-api.html#reactmemo) - render when prop changes
+- [useCallback](https://reactjs.org/docs/hooks-reference.html#usecallback) - give a new function when prop changes
 - useMemo - execute function when prop changes
 - Wrap the action creators in useCallback
 - Wrap NewGrudge and Grudge in React.memo
@@ -925,9 +935,9 @@ const Grudge = memo(({ grudge, onForgive }) => {
 
 **[⬆ back to top](#table-of-contents)**
 
-## **05. Context**
+### **05. Context**
 
-### Prop Drilling & Context API
+#### Prop Drilling & Context API
 
 What is [prop drilling](https://kentcdodds.com/blog/prop-drilling)?
 
@@ -942,7 +952,7 @@ What problems can prop drilling cause?
 
 **[⬆ back to top](#table-of-contents)**
 
-### Creating a Context Provider
+#### Creating a Context Provider
 
 [Context](https://reactjs.org/docs/context.html) provides a way to pass data 
 through the component tree without having 
@@ -1068,7 +1078,7 @@ ReactDOM.render(
 
 **[⬆ back to top](#table-of-contents)**
 
-### Context & useContext Hook
+#### Context & useContext Hook
 
 ```javascript
 import React, { useContext } from 'react';
@@ -1121,7 +1131,7 @@ export default Grudge;
 
 **[⬆ back to top](#table-of-contents)**
 
-### Context Practice
+#### Context Practice
 
 ```javascript
 import React, { useState, memo, useContext } from 'react';
@@ -1153,11 +1163,11 @@ Some Tasting Notes
 
 **[⬆ back to top](#table-of-contents)**
 
-## **06. Data Fetching**
+### **06. Data Fetching**
 
 [Star Wars Autocomplete](https://github.com/stevekinney/star-wars-characters-react-state)
 
-### Data Fetching & useEffect Hook
+#### Data Fetching & useEffect Hook
 
 ```javascript
 useEffect(() => {
@@ -1174,7 +1184,7 @@ useEffect(() => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Response, Loading, & Error
+#### Response, Loading, & Error
 
 ```javascript
 useEffect(() => {
@@ -1236,7 +1246,7 @@ const Application = () => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Refactoring to a Custom Hook
+#### Refactoring to a Custom Hook
 
 ```javascript
 const useFetch = url => {
@@ -1272,7 +1282,7 @@ const useFetch = url => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Refactoring to a Custom Reducer
+#### Refactoring to a Custom Reducer
 
 ```javascript
 const initialState = {
@@ -1336,9 +1346,9 @@ const useFetch = url => {
 
 **[⬆ back to top](#table-of-contents)**
 
-## **07. Thunks**
+### **07. Thunks**
 
-### What is a Thunk
+#### What is a Thunk
 
 - a function returned from another function.
 
@@ -1378,7 +1388,7 @@ export const getAllItems = () => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### useThunkReducer Hook
+#### useThunkReducer Hook
 
 ```javascript
 const useThunkReducer = (reducer, initialState) => {
@@ -1417,7 +1427,7 @@ const Application = () => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Dispatching, Reducers & Hooks
+#### Dispatching, Reducers & Hooks
 
 ```javascript
 const fetchCharacters = dispatch => {
@@ -1437,7 +1447,7 @@ const fetchCharacters = dispatch => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Routing & Thunks
+#### Routing & Thunks
 
 ```javascript
 const CharacterView = ({ match }) => {
@@ -1455,7 +1465,7 @@ const CharacterView = ({ match }) => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Implementing Undo & Redo
+#### Implementing Undo & Redo
 
 ```javascript
 {
@@ -1524,7 +1534,7 @@ export const GrudgeProvider = ({ children }) => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Undo Reducer
+#### Undo Reducer
 
 ```javascript
 const reducer = (state = defaultState, action) => {
@@ -1544,10 +1554,8 @@ const reducer = (state = defaultState, action) => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Redo Reducer Exercise
-**[⬆ back to top](#table-of-contents)**
-
-### Redo Reducer Solution
+#### Redo Reducer Exercise
+#### Redo Reducer Solution
 
 ```javascript
 const reducer = (state = defaultState, action) => {
@@ -1636,7 +1644,7 @@ export const GrudgeProvider = ({ children }) => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Managing State in a Form
+#### Managing State in a Form
 
 ```javascript
 import { useReducer } from 'react';
@@ -1702,8 +1710,28 @@ const UserSignup = () => {
 
 **[⬆ back to top](#table-of-contents)**
 
-## **08. Wrapping Up**
+### **08. Wrapping Up**
 
 [Collection of React Hooks](https://nikgraf.github.io/react-hooks)
 
+**[⬆ back to top](#table-of-contents)**
+
+## State Management with Redux & MobX
+
+### **01. Introduction**
+**[⬆ back to top](#table-of-contents)**
+
+### **02. Redux Functions**
+**[⬆ back to top](#table-of-contents)**
+
+### **03. Redux & React**
+**[⬆ back to top](#table-of-contents)**
+
+### **04. Redux Libraries**
+**[⬆ back to top](#table-of-contents)**
+
+### **05. MobX**
+**[⬆ back to top](#table-of-contents)**
+
+### **06. Wrapping Up**
 **[⬆ back to top](#table-of-contents)**
