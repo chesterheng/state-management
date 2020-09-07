@@ -1930,6 +1930,34 @@ store.dispatch({ type: 'ADD', payload: { amount: 2 } });
 **[⬆ back to top](#table-of-contents)**
 
 #### combineReducers
+
+```javascript
+const initialState = { 
+  calculator: 0,
+  error: 'No error'
+};
+
+const calculatorReducer = (state = { value: 1 }, action) => {
+  if (action.type === 'ADD') {
+    const value = state.value;
+    const amount = action.payload.amount;
+    return { value: value + amount };
+  }
+  return state;  
+}
+
+const reducer = combineReducers({
+  calculator: calculatorReducer
+});
+
+const store = createStore(reducer);
+store.getState()
+store.dispatch({ type: 'ADD', payload: { amount: 2 } });
+store.dispatch({ type: 'ADD', payload: { amount: 2 } });
+store.dispatch({ type: 'ADD', payload: { amount: 2 } });
+store.getState()
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### bindActionCreators
