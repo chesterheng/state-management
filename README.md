@@ -61,6 +61,7 @@
     - [**08. Wrapping Up**](#08-wrapping-up)
   - [State Management with Redux & MobX](#state-management-with-redux--mobx)
     - [**01. Introduction**](#01-introduction-1)
+      - [Introduction](#introduction)
     - [**02. Redux Functions**](#02-redux-functions)
     - [**03. Redux & React**](#03-redux--react)
     - [**04. Redux Libraries**](#04-redux-libraries)
@@ -1719,6 +1720,50 @@ const UserSignup = () => {
 ## State Management with Redux & MobX
 
 ### **01. Introduction**
+
+#### Introduction
+
+What are we going to learn in this course?
+
+- The fundamentals of Redux—outside of React. 
+- Hooking [Redux](https://redux.js.org/introduction/getting-started) up to React.
+- Normalizing the structure of your state.
+- Using selectors to prevent needless re-renders.
+- How middleware works with Redux.
+- Making asynchronous API calls with [Redux Thunk](https://github.com/reduxjs/redux-thunk).
+- Cracking open the doors to the wild world or [Redux Observable](https://redux-observable.js.org).
+- Mixing reactive and object-oriented state management with [MobX](https://mobx.js.org/README.html).
+
+Why is this important?
+
+- Doing a massive refactor of your state later is fraught with peril.
+- Having really great state management inspires joy. 
+- The first point is probably more important.
+
+What kind of applications are we going to build today?
+
+- Counter
+- Kanban Board
+- To-do List
+- Star Wars Autocomplete
+- Live Tweet
+
+- But, this workshop is about more than just the libraries.
+- Libraries come and go.
+- Patterns and approaches stick around.
+- Managing UI state is not a solved problem.
+- New ideas and implementations will come along.
+- My goal is to help you think about and apply these conceptual patterns, regardless of what library is the current flavor.
+
+**[⬆ back to top](#table-of-contents)**
+
+Pure & Impure Functions
+**[⬆ back to top](#table-of-contents)**
+
+Copy Instead of Mutate
+**[⬆ back to top](#table-of-contents)**
+
+Single State Store & Reducers
 **[⬆ back to top](#table-of-contents)**
 
 ### **02. Redux Functions**
