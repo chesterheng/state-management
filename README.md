@@ -1961,6 +1961,38 @@ store.getState()
 **[⬆ back to top](#table-of-contents)**
 
 #### bindActionCreators
+
+```javascript
+const store = createStore(reducer);
+
+const addAction = { type: 'ADD', payload: { amount: 4 } };
+const createAddAction = amount => {
+  return {
+    type: 'ADD', 
+    payload: { amount }
+  }
+}
+
+store.dispatch(createAddAction(4));
+
+const dispatchAdd = bindActionCreators(createAddAction, store.dispatch);
+dispatchAdd(5);
+```
+
+```javascript
+const bindActionCreatorz = (actions, dispatch) => {
+  return Object.keys(actions).reduce((boundActions, key) => {
+    boundActions[key] = bindActionCreator(actions[key], dispatch);
+    return boundActions;
+  }, {});
+}
+
+const errors = bindActionCreatorz({ 
+  set: setError,
+  clear: clearError
+}, store.dispatch);
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Middleware in Redux
