@@ -1795,6 +1795,41 @@ const add = (a, b) => {
 **[⬆ back to top](#table-of-contents)**
 
 #### Copy Instead of Mutate
+
+```javascript
+// Copy object
+const original = { a: 1, b: 2 };
+const copy = { ...original };
+
+// Extend object
+const original = { a: 1, b: 2 };
+const extension = { c: 3 };
+const extended = Object.assign({}, original, extension);
+
+// Extend object
+const original = { a: 1, b: 2 };
+const extension = { c: 3 };
+const extended = { ...original, ...extension };
+
+// Copy array
+const original = [1, 2, 3];
+const copy = [1, 2, 3].slice();
+
+// Copy array
+const original = [1, 2, 3];
+const copy = [ ...original ];
+
+// Extend array
+const original = [1, 2, 3];
+const extended = original.concat(4);
+const moreExtended = original.concat([4, 5]);
+
+// Extend array
+const original = [1, 2, 3];
+const extended = [ ...original, 3, 4 ];
+const moreExtended = [ ...original, ...extended ];
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Single State Store & Reducers
