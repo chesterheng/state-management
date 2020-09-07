@@ -1636,4 +1636,67 @@ export const GrudgeProvider = ({ children }) => {
 **[⬆ back to top](#table-of-contents)**
 
 ### Managing State in a Form
+
+```javascript
+import { useReducer } from 'react';
+
+const reducer = (previousState = {}, updatedState = {}) => {
+  return { ...previousState, ...updatedState };
+};
+
+const useSetState = (initialState = {}) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const setState = updatedState => dispatch(updatedState);
+
+  return [state, setState];
+};
+
+export default useSetState;
+```
+
+```javascript
+import React from 'react';
+import useSetState from "./useSetState"
+import './UserSignup.css';
+
+const initialState = {
+  userName: '',
+  email: '',
+  password: '',
+  passwordConfirmation: '',
+  investmentInterest: false
+};
+
+const UserSignup = () => {
+  const [state, setState] = useSetState(initialState);
+
+  const handleChange = event => {
+    setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+  const clear = () => {
+    setState(initialState)
+  };
+
+  return (
+    <form className="UserSignup" onSubmit={handleSubmit}>
+      <label htmlFor="userName">User Name</label>
+      <input
+        id="userName"
+        name="userName"
+        type="text"
+        value={state.userName}
+        required
+        onChange={handleChange}
+      />
+      ...
+      <input type="Submit" />
+    </form>
+  );
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
