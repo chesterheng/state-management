@@ -73,6 +73,21 @@
       - [bindActionCreators](#bindactioncreators)
       - [Middleware in Redux](#middleware-in-redux)
     - [**03. Redux & React**](#03-redux--react)
+      - [Create Redux Store](#create-redux-store)
+      - [Connect Redux to React](#connect-redux-to-react)
+      - [Redux Reducer Exercise & Solution](#redux-reducer-exercise--solution)
+      - [Refactoring an App to Use Redux](#refactoring-an-app-to-use-redux)
+      - [Implementing a Kanban Board](#implementing-a-kanban-board)
+      - [State Store Schema](#state-store-schema)
+      - [Wiring State Store to the App](#wiring-state-store-to-the-app)
+      - [Redux DevTools](#redux-devtools)
+      - [Using State Store in Components](#using-state-store-in-components)
+      - [Wiring Redux to a React App Exercise](#wiring-redux-to-a-react-app-exercise)
+      - [Wiring Redux to a React App Solution](#wiring-redux-to-a-react-app-solution)
+      - [Implementing Map Dispatch to Props](#implementing-map-dispatch-to-props)
+      - [Handling Dispatched Actions](#handling-dispatched-actions)
+      - [Updating Nested State](#updating-nested-state)
+      - [Action Creator Helpers](#action-creator-helpers)
     - [**04. Redux Libraries**](#04-redux-libraries)
     - [**05. MobX**](#05-mobx)
     - [**06. Wrapping Up**](#06-wrapping-up)
@@ -2025,6 +2040,105 @@ const store = createStore(reducer, applyMiddleware(logger));
 **[⬆ back to top](#table-of-contents)**
 
 ### **03. Redux & React**
+
+#### Create Redux Store
+
+```javascript
+const initialState = { count: 0 };
+
+const INCREMENT = 'INCREMENT';
+
+const incrementValue = () => ({
+  type: INCREMENT,
+});
+
+const reducer = (state = initialState, action) => {
+  if (action.type === INCREMENT) {
+    return {
+      count: state.count + 1
+    };
+  }
+
+  return state;
+};
+
+const store = createStore(reducer);
+
+class Counter extends Component {
+  render() {
+    const { count, increment } = this.props;
+
+    return ( ... );
+  }
+}
+
+const mapStateToProps = state => {
+  return state;
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    increment() {
+      dispatch(incrementValue());
+    },
+  };
+};
+
+const CounterContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Counter);
+
+render(
+  <Provider store={store}>
+    <CounterContainer />
+  </Provider>,
+  document.getElementById('root'),
+);
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+#### Connect Redux to React
+**[⬆ back to top](#table-of-contents)**
+
+#### Redux Reducer Exercise & Solution
+**[⬆ back to top](#table-of-contents)**
+
+#### Refactoring an App to Use Redux
+**[⬆ back to top](#table-of-contents)**
+
+#### Implementing a Kanban Board
+**[⬆ back to top](#table-of-contents)**
+
+#### State Store Schema
+**[⬆ back to top](#table-of-contents)**
+
+#### Wiring State Store to the App
+**[⬆ back to top](#table-of-contents)**
+
+#### Redux DevTools
+**[⬆ back to top](#table-of-contents)**
+
+#### Using State Store in Components
+**[⬆ back to top](#table-of-contents)**
+
+#### Wiring Redux to a React App Exercise
+**[⬆ back to top](#table-of-contents)**
+
+#### Wiring Redux to a React App Solution
+**[⬆ back to top](#table-of-contents)**
+
+#### Implementing Map Dispatch to Props
+**[⬆ back to top](#table-of-contents)**
+
+#### Handling Dispatched Actions
+**[⬆ back to top](#table-of-contents)**
+
+#### Updating Nested State
+**[⬆ back to top](#table-of-contents)**
+
+#### Action Creator Helpers
 **[⬆ back to top](#table-of-contents)**
 
 ### **04. Redux Libraries**
