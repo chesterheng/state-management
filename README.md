@@ -2201,6 +2201,22 @@ render(
 **[⬆ back to top](#table-of-contents)**
 
 #### Refactoring an App to Use Redux
+
+React State vs. Redux State
+
+[You Might Not Need Redux](https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367)
+
+Now, it will be in four files!
+
+- NewItem.js
+- NewItemContainer.js 
+- new-item-actions.js 
+- items-reducer.js
+
+this.setState() and useState() are inherently simpler to reason about than actions, reducers, and stores.
+
+[normalizr](https://github.com/paularmstrong/normalizr)
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Implementing a Kanban Board
