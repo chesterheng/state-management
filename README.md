@@ -1857,6 +1857,33 @@ What is Redux?
 ### **02. Redux Functions**
 
 #### Redux Functions Overview
+
+Redux is small.
+
+- applyMiddleware: function()
+- bindActionCreators: function()
+- combineReducers: function()
+- compose: function()
+- createStore: function()
+
+```javascript
+import {
+  createStore,
+  combineReducers,
+  compose,
+  bindActionCreators,
+  applyMiddleware
+} from 'redux';
+
+const makeLouder = string => string.toUpperCase();
+const repeatThreeTimes = string => string.repeat(3);
+const embolden = string => string.bold();
+
+const makeLouderAndBoldAndRepeatThreeTimes = compose(embolden, repeatThreeTimes, makeLouder);
+
+console.log(makeLouderAndBoldAndRepeatThreeTimes('hello'))
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### reducer & createStore
