@@ -2314,6 +2314,71 @@ const store = createStore(
 **[⬆ back to top](#table-of-contents)**
 
 #### Using State Store in Components
+
+```javascript
+import React from 'react';
+import ListContainer from '../containers/ListContainer';
+
+const Lists = ({ lists = [] }) => {
+  return (
+    <section className="Lists">
+      {lists.map(listId => (
+        <ListContainer key={listId} listId={listId} />
+      ))}
+    </section>
+  );
+};
+
+export default Lists;
+```
+
+```javascript
+import { connect } from 'react-redux';
+import Lists from '../components/Lists';
+
+const mapStateToProps = state => {
+  return {
+    lists: state.lists.ids,
+  };
+};
+
+export default connect(mapStateToProps)(Lists);
+```
+
+```javascript
+import React from 'react';
+
+import Card from './Card';
+import CreateCard from './CreateCard';
+
+const List = ({ list = {}, removeList }) => {
+  return (
+    <article className="List">
+      <h2>{list.title}</h2>
+      <CreateCard />
+      <div>
+        {list.cards.map(cardId => (
+          <Card key={cardId} cardId={cardId} listId={list.id} />
+        ))}
+      </div>
+    </article>
+  );
+};
+
+export default List;
+```
+
+```javascript
+import { connect } from 'react-redux';
+import List from '../components/List';
+
+const mapStateToProps = (state, ownProps) => {
+  return { list: state.lists.entities[ownProps.listId] };
+};
+
+export default connect(mapStateToProps)(List);
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Wiring Redux to a React App Exercise
