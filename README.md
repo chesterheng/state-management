@@ -2634,6 +2634,101 @@ export default listsReducer;
 **[⬆ back to top](#table-of-contents)**
 
 #### Action Creator Helpers
+
+```javascript
+export const CARD_CREATE = 'CARD_CREATE';
+export const LIST_CREATE = 'LIST_CREATE';
+
+const defaultCardData = {
+  title: '',
+  description: '',
+  assignedTo: '',
+};
+
+export const createCard = (listId, cardData) => {
+  const cardId = Date.now().toString();
+  const card = {
+    id: cardId,
+    ...defaultCardData,
+    ...cardData,
+  };
+
+  return {
+    type: CARD_CREATE,
+    payload: { card, listId, cardId },
+  };
+};
+```
+
+```javascript
+import { connect } from 'react-redux';
+import CreateCard from '../components/CreateCard';
+import { createCard } from '../actions/card-actions';
+
+export default connect(
+  null,
+  { createCard },
+)(CreateCard);
+```
+
+```javascript
+import set from 'lodash/fp/set';
+import get from 'lodash/fp/get';
+import pipe from 'lodash/fp/pipe';
+
+export const addEntity = (state, entity, id) => {
+  return pipe(
+    set(['entities', id], entity),
+    set('ids', state.ids.concat(id)),
+  )(state);
+};
+
+export const addIdToChildren = (state, entityId, property, childId) => {
+  const path = ['entities', entityId, property];
+  const children = get(path)(state);
+  return set(path, children.concat(childId), state);
+};
+```
+
+```javascript
+import { cards as defaultCards } from '../normalized-state';
+import { CARD_CREATE } from '../actions/card-actions';
+import { addEntity } from './_utilities';
+
+const cardsReducer = (cards = defaultCards, action) => {
+  if (action.type === CARD_CREATE) {
+    const { card, cardId } = action.payload;
+    return addEntity(cards, card, cardId);
+  }
+
+  return cards;
+};
+
+export default cardsReducer;
+```
+
+```javascript
+import { lists as defaultLists } from '../normalized-state';
+import { CARD_CREATE, LIST_CREATE } from '../actions/card-actions';
+import { addIdToChildren, addEntity } from './_utilities';
+
+const listsReducer = (lists = defaultLists, action) => {
+  if (action.type === CARD_CREATE) {
+    const { cardId, listId } = action.payload;
+    return addIdToChildren(lists, listId, 'cards', cardId);
+  }
+
+  if (action.type === LIST_CREATE) {
+    const { list, listId } = action.payload;
+    return addEntity(lists, list, listId);
+  }
+
+  return lists;
+};
+
+export default listsReducer;
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### **04. Redux Libraries**
