@@ -89,6 +89,15 @@
       - [Updating Nested State](#updating-nested-state)
       - [Action Creator Helpers](#action-creator-helpers)
     - [**04. Redux Libraries**](#04-redux-libraries)
+      - [State Store Selectors with Reselect](#state-store-selectors-with-reselect)
+      - [Reselect Performance](#reselect-performance)
+      - [Redux Thunk](#redux-thunk)
+      - [Redux Thunk Setup](#redux-thunk-setup)
+      - [Redux Thunk: Dispatching Actions](#redux-thunk-dispatching-actions)
+      - [Redux Observable](#redux-observable)
+      - [Redux Observable Setup](#redux-observable-setup)
+      - [Redux Observable: Mapping Actions](#redux-observable-mapping-actions)
+      - [Redux Observable: Cancelling Requests](#redux-observable-cancelling-requests)
     - [**05. MobX**](#05-mobx)
     - [**06. Wrapping Up**](#06-wrapping-up)
 
@@ -2732,6 +2741,32 @@ export default listsReducer;
 **[⬆ back to top](#table-of-contents)**
 
 ### **04. Redux Libraries**
+
+#### State Store Selectors with Reselect
+**[⬆ back to top](#table-of-contents)**
+
+#### Reselect Performance
+**[⬆ back to top](#table-of-contents)**
+
+#### Redux Thunk
+**[⬆ back to top](#table-of-contents)**
+
+#### Redux Thunk Setup
+**[⬆ back to top](#table-of-contents)**
+
+#### Redux Thunk: Dispatching Actions
+**[⬆ back to top](#table-of-contents)**
+
+#### Redux Observable
+**[⬆ back to top](#table-of-contents)**
+
+#### Redux Observable Setup
+**[⬆ back to top](#table-of-contents)**
+
+#### Redux Observable: Mapping Actions
+**[⬆ back to top](#table-of-contents)**
+
+#### Redux Observable: Cancelling Requests
 **[⬆ back to top](#table-of-contents)**
 
 ### **05. MobX**
