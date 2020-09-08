@@ -1,8 +1,15 @@
 import { cards as defaultCards } from '../normalized-state';
 
 const cardsReducer = (cards = defaultCards, action) => {
-    console.log('Hello from cards');
-    return cards;
+  if (action.type === 'CARD_CREATE') {
+    const { card, cardId } = action.payload;
+    return {
+      entities: { ...cards.entities, [cardId]: card },
+      ids: [...cards.ids, cardId],
+    };
+  }
+
+  return cards;
 };
 
 export default cardsReducer;

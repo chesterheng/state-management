@@ -2431,12 +2431,206 @@ export default connect(mapStateToProps)(Card);
 **[⬆ back to top](#table-of-contents)**
 
 #### Implementing Map Dispatch to Props
+
+```javascript
+import { connect } from 'react-redux';
+import CreateCard from '../components/CreateCard';
+
+const defaultCardData = {
+  title: '',
+  description: '',
+  assignedTo: '',
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    createCard(listId, cardData) {
+      const cardId = Date.now().toString();
+      const card = {
+        id: cardId,
+        ...defaultCardData,
+        ...cardData,
+      };
+      dispatch({
+        type: 'CARD_CREATE',
+        payload: { card, listId, cardId },
+      });
+    },
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(CreateCard);
+```
+
+```javascript
+import React, { Component } from 'react';
+
+class CreateCard extends Component {
+  state = {
+    title: '',
+    description: '',
+  };
+
+  handleChange = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
+  get isValid() {
+    const { title, description } = this.state;
+    return title && description;
+  }
+
+  get isInvalid() {
+    return !this.isValid;
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    if (this.isInvalid) return;
+
+    const { createCard, listId } = this.props;
+
+    if (createCard) {
+      createCard(listId, this.state);
+    }
+
+    this.setState({
+      title: '',
+      description: '',
+    });
+  };
+
+  render() {
+    const { title, description } = this.state;
+
+    return (
+      <form className="CreateCard" onSubmit={this.handleSubmit}>
+        <input
+          className="CreateCard-title"
+          onChange={this.handleChange}
+          name="title"
+          placeholder="Title"
+          type="text"
+          value={title}
+        />
+        <input
+          className="CreateCard-description"
+          onChange={this.handleChange}
+          placeholder="Description"
+          name="description"
+          type="text"
+          value={description}
+        />
+        <input
+          className="CreateCard-submit"
+          type="submit"
+          value="Create New Card"
+          disabled={this.isInvalid}
+        />
+      </form>
+    );
+  }
+}
+
+export default CreateCard;
+```
+
+```javascript
+import React from 'react';
+
+import CreateCardContainer from '../containers/CreateCardContainer';
+import CardContainer from '../containers/CardContainer';
+
+const List = ({ list = {}, removeList }) => {
+  return (
+    <article className="List">
+      <h2>{list.title}</h2>
+      <CreateCardContainer listId={list.id} />
+      <div>
+        {list.cards.map(cardId => (
+          <CardContainer key={cardId} cardId={cardId} />
+        ))}
+      </div>
+    </article>
+  );
+};
+
+export default List;
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Handling Dispatched Actions
+
+```javascript
+import { cards as defaultCards } from '../normalized-state';
+
+const cardsReducer = (cards = defaultCards, action) => {
+  if (action.type === 'CARD_CREATE') {
+    const { card, cardId } = action.payload;
+    return {
+      entities: { ...cards.entities, [cardId]: card },
+      ids: [...cards.ids, cardId],
+    };
+  }
+
+  return cards;
+};
+
+export default cardsReducer;
+```
+
+```javascript
+import { lists as defaultLists } from '../normalized-state';
+import set from 'lodash/fp/set';
+
+const listsReducer = (lists = defaultLists, action) => {
+  if (action.type === 'CARD_CREATE') {
+    const { cardId, listId } = action.payload;
+    const entities = { ...lists.entities };
+
+    entities[listId] = {
+      ...entities[listId],
+      cards: entities[listId].cards.concat(cardId)
+    }
+
+    return {
+      ...lists,
+      entities
+    };
+  }
+  return lists;
+};
+
+export default listsReducer;
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Updating Nested State
+
+```javascript
+import { lists as defaultLists } from '../normalized-state';
+import set from 'lodash/fp/set';
+
+const listsReducer = (lists = defaultLists, action) => {
+  if (action.type === 'CARD_CREATE') {
+    const { cardId, listId } = action.payload;
+
+    const cards = lists.entities[listId].cards.concat(cardId);
+    return set(['entities', listId, 'cards'], cards, lists);
+  }
+  return lists;
+};
+
+export default listsReducer;
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Action Creator Helpers
