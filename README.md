@@ -2382,9 +2382,52 @@ export default connect(mapStateToProps)(List);
 **[⬆ back to top](#table-of-contents)**
 
 #### Wiring Redux to a React App Exercise
+
+- Check out reducers/cards-reducer.js and make it look suspiciously like the reducer for lists.
+- Hook it into reducers/index.js. 
+- Create a CardContainer that looks at ownProps.cardId in order grab a card from state.
+- In components/List.js, map over `list.cards` in order to create a CardContainer for each ID in the array.
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Wiring Redux to a React App Solution
+
+```javascript
+import { cards as defaultCards } from '../normalized-state';
+
+const cardsReducer = (cards = defaultCards, action) => {
+    console.log('Hello from cards');
+    return cards;
+};
+
+export default cardsReducer;
+```
+
+```javascript
+import { combineReducers } from 'redux';
+
+import lists from './list-reducer';
+import cards from './card-reducer';
+
+export default combineReducers({
+  lists,
+  cards
+});
+```
+
+```javascript
+import { connect } from 'react-redux';
+import Card from '../components/Card';
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        card: state.cards.entities[ownProps.cardId],
+    };
+};
+
+export default connect(mapStateToProps)(Card);
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Implementing Map Dispatch to Props
