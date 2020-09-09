@@ -2860,9 +2860,84 @@ export const fetchTweets = () => {
 **[⬆ back to top](#table-of-contents)**
 
 #### Redux Thunk: Dispatching Actions
+
+```javascript
+export const ADD_TWEETS = 'ADD_TWEETS';
+export const SET_STATUS = 'SET_STATUS';
+export const LOADING = 'LOADING';
+
+export const fetchTweets = () => {
+  return (dispatch) => {
+    dispatch(setStatusToLoading());
+    fetch('http://tweet-stream.glitch.me/api/tweets')
+      .then(response => response.json())
+      .then(response => dispatch(addTweets(response.tweets)));
+  }
+};
+
+export const addTweets = tweets => ({
+  type: ADD_TWEETS,
+  payload: { tweets }
+})
+
+export const setStatusToLoading = () => ({
+  type: SET_STATUS,
+  payload: { status: LOADING }
+})
+```
+
+```javascript
+import { combineReducers } from 'redux';
+import { ADD_TWEETS } from './actions';
+
+const tweets = (tweets = [], action) => {
+  if (action.type === ADD_TWEETS) {
+    return action.payload.tweets;
+  }
+
+  return tweets;
+};
+
+export default combineReducers({
+  tweets,
+});
+```
+
+The action creators in redux-thunk aren’t pure and this can make testing tricky.
+
+```javascript
+it('fetches items from the database', ()  => {
+  const itemsInDatabase = {
+    items: [{ id: 1, value: 'Cheese', packed: false }],
+  };
+
+  fetchMock.getOnce('/items', {
+    body: itemsInDatabase,
+    headers: { 'content-type': 'application/json' },
+  });
+
+  const store = mockStore({ items: [] });
+
+  return store.dispatch(actions.getItems()).then(()  => {
+    expect(store.getItems()).toEqual({
+      type: GET_ALL_ITEMS,
+      items: itemsInDatabase
+    });
+  });
+});
+```
+
+It would be great if we could separate out the dispatch of actions from the talking to the database.
+
+The tricky part is that we need the information to dispatch the action that’s going to the store.
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Redux Observable
+
+[Redux Saga](https://github.com/redux-saga/redux-saga) - smaller project
+[Redux Observable](https://redux-observable.js.org/) - large application
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Redux Observable Setup
