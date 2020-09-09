@@ -1,0 +1,35 @@
+{
+  "name": "tweet-stream",
+  "version": "1.0.0",
+  "description": "An example application for playing with asynchronous data in a React and Redux application.",
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "lodash": "4.17.11",
+    "node-sass": "^4.12.0",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-redux": "7.0.3",
+    "react-scripts": "3.0.1",
+    "redux": "4.0.1",
+    "redux-observable": "1.1.0",
+    "redux-saga": "1.0.2",
+    "redux-thunk": "2.3.0",
+    "rxjs": "6.5.2"
+  },
+  "devDependencies": {
+    "typescript": "3.4.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

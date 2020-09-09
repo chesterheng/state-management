@@ -1575,10 +1575,11 @@ const reducer = (state = defaultState, action) => {
 
   if(action.type === UNDO) {
     const [newPresent, ...newPast] = state.past;
+    const newFuture = [state.present, ...state.future];
     return {
       past: newPast,
       present: newPresent,
-      future: [state.present, ...state.future]
+      future: newFuture
     };
   }
 
@@ -1596,8 +1597,9 @@ const reducer = (state = defaultState, action) => {
 
   if(action.type === REDO) {
     const [newPresent, ...newFuture] = state.future;
+    const newPast = [state.present, ...state.past];
     return {
-      past: [state.present, ...state.past],
+      past: newPast,
       present: newPresent,
       future: newFuture
     };
@@ -2802,6 +2804,40 @@ const getListId = memoize(cardId =>
 **[⬆ back to top](#table-of-contents)**
 
 #### Redux Thunk
+
+- thunk (noun): a function returned from another function
+- The major idea behind a thunk is that its code to be executed later
+- Here is the thing with Redux—it only accepts objects as actions
+- redux-thunk is a middleware that allows us to dispatch a function (thunk) now that will dispatch a legit action later.
+
+```javascript
+function definitelyNotAThunk() {
+  return function aThunk() {
+    console.log('Hello, I am a thunk.');
+  }
+}
+```
+
+```javascript
+export const getAllItems = ()  => ({
+  type: UPDATE_ALL_ITEMS,
+  items,
+});
+```
+
+```javascript
+export const getAllItems = ()  => {
+  return dispatch  => {
+    Api.getAll().then(items  => {
+      dispatch({
+        type: UPDATE_ALL_ITEMS,
+        items,
+      });
+    });
+  };
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Redux Thunk Setup
