@@ -2768,6 +2768,37 @@ const getLists = createSelector(
 **[⬆ back to top](#table-of-contents)**
 
 #### Reselect Performance
+
+```javascript
+import { createSelector } from 'reselect';
+
+const getUsers = users => {
+  console.log('Getting users');
+  return users.ids;
+};
+
+const createUserSelector = createSelector(
+  state => state.users,
+  getUsers,
+);
+```
+
+```javascript
+const getListId = memoize(cardId =>
+  createSelector(
+    state => state.lists.entities,
+    lists => {
+      console.log('findListIdForCard', lists, cardId);
+      for (const [listId, list] of Object.entries(lists)) {
+        if (list.cards.includes(cardId)) {
+          return listId;
+        }
+      }
+    },
+  ),
+);
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Redux Thunk
