@@ -2841,6 +2841,22 @@ export const getAllItems = ()  => {
 **[⬆ back to top](#table-of-contents)**
 
 #### Redux Thunk Setup
+
+```javascript
+import thunk from 'redux-thunk';
+const store = createStore(reducer, applyMiddleware(thunk));
+```
+
+```javascript
+export const fetchTweets = () => {
+  return (dispatch) => {
+    fetch('http://tweet-stream.glitch.me/api/tweets')
+      .then(response => response.json())
+      .then(response => console.log(response, dispatch));
+  }
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Redux Thunk: Dispatching Actions
