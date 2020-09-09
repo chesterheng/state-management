@@ -2743,6 +2743,28 @@ export default listsReducer;
 ### **04. Redux Libraries**
 
 #### State Store Selectors with Reselect
+
+```javascript
+const getLists = state => {
+  console.log('Generate an array of list');
+  return Object.values(state.lists.entities);
+}
+```
+
+```javascript
+import { createSelector } from 'reselect';
+
+const getListEntities = state => state.lists.entities;
+
+const getLists = createSelector(
+  getListEntities,
+  lists => {
+    console.log('Generate an array of list');
+    return Object.values(lists);
+  },
+);
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Reselect Performance

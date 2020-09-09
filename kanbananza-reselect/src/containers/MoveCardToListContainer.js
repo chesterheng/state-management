@@ -6,9 +6,9 @@ import { createSelector } from 'reselect';
 const getListEntities = state => state.lists.entities;
 
 const getLists = createSelector(
-  [getListEntities],
+  getListEntities,
   lists => {
-    console.log('Generating an array of the lists');
+    console.log('Generate an array of list');
     return Object.values(lists);
   },
 );
