@@ -2938,6 +2938,42 @@ The tricky part is that we need the information to dispatch the action that’s 
 [Redux Saga](https://github.com/redux-saga/redux-saga) - smaller project
 [Redux Observable](https://redux-observable.js.org/) - large application
 
+- Redux Observable is binding Redux to RxJS in the same way React Redux binds Redux to React
+
+What is an observable?
+
+- A stream of zero, one, or more values.
+- The stream comes in over a series of time. 
+- The stream is cancelable.
+
+What is Redux Observable?
+
+- Redux Observable is a combination of RxJS and Redux. 
+- Side effect managment using "epics."
+
+What is an epic? 🙄
+
+- A function that takes a stream of all actions dispatched and returns a stream of new actions to dispatch.
+
+![](img/epic1.jpg)
+![](img/epic2.jpg)
+
+```javascript
+const pingPong = (action, store)  => {
+  if (action.type === 'PING') {
+    return {
+      type: 'PONG'
+    };
+  }
+};
+```
+
+```javascript
+const pingPongEpic = (action$, store)  =>
+  action$.ofType('PING')
+    .map(action  => ({ type: 'PONG' }));
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Redux Observable Setup
