@@ -3411,6 +3411,95 @@ Use a Map() if you’re going to be adding keys later on.
 **[⬆ back to top](#table-of-contents)**
 
 #### MobX in React
+
+```javascript
+@observer class Counter extends Component {
+  render() {
+    const { counter } = this.props;
+    return (
+      <section>
+      <h1>Count: {counter.count} </h1>
+      <button onClick={counter.increment}>Increment </button>
+      <button onClick={counter.decrement}>Decrement </button>
+      <button onClick={counter.reset}>Reset </button>
+      </section>
+    );
+  }
+}
+```
+
+```javascript
+const Counter = observer(({ counter })  => (
+  <section>
+    <h1>Count: {counter.count} </h1>
+    <button onClick={counter.increment}>Increment </button>
+    <button onClick={counter.decrement}>Decrement </button>
+    <button onClick={counter.reset}>Reset </button>
+  </section>
+));
+```
+
+```javascript
+class ContainerComponent extends Component () {
+  componentDidMount() {
+    this.stopListening = autorun(()  => this.render());
+  }
+  componentWillUnmount() {
+    this.stopListening();
+  }
+  render() { ... }
+}
+```
+
+```javascript
+import { Provider } from 'mobx-react';
+import ItemStore from './store/ItemStore';
+import Application from './components/Application';
+
+const itemStore = new ItemStore();
+
+ReactDOM.render(
+  <Provider itemStore={itemStore}>
+    <Application  />
+  </Provider>,
+  document.getElementById('root'),
+);
+```
+
+```javascript
+@inject('itemStore')
+class NewItem extends Component {
+  state = { ... };
+  handleChange = (event)  => { ... }
+  handleSubmit = (event)  => { ... }
+  render() { ... }
+}
+```
+
+```javascript
+const UnpackedItems = inject('itemStore')(
+  observer(({ itemStore })  => (
+    <Items
+      title="Unpacked Items"
+      items={itemStore.filteredUnpackedItems}
+      total={itemStore.unpackedItemsLength}
+    >
+      <Filter
+        value={itemStore.unpackedItemsFilter}
+        onChange={itemStore.updateUnpackedItemsFilter}
+      />
+    </Items>
+  )),
+);
+```
+
+Run basic-mobx-with-object-literal
+
+```console
+count
+count.value = 500
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### List Model MobX Store
