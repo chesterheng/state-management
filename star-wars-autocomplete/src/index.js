@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+
+import { createEpicMiddleware } from 'redux-observable';
+import rootEpic from './fetch-character-epic';
 
 import reducer from './reducer';
 
@@ -11,7 +14,14 @@ import Characters from './Characters';
 
 import './styles.scss';
 
-const store = createStore(reducer);
+const epicMiddleware = createEpicMiddleware();
+
+const store = createStore(
+  reducer, 
+  applyMiddleware(epicMiddleware)
+);
+
+epicMiddleware.run(rootEpic);
 
 const Application = () => {
   return (

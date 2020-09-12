@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { fetchCharacters } from './actions';
 
 const FetchCharacters = ({ fetchCharacters }) => {
   const [value, setValue] = useState('');
@@ -21,4 +23,7 @@ const FetchCharacters = ({ fetchCharacters }) => {
   );
 };
 
-export default FetchCharacters;
+export default connect(
+  null,
+  { fetchCharacters },
+)(FetchCharacters);
