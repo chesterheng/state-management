@@ -3672,6 +3672,75 @@ export default Application;
 **[⬆ back to top](#table-of-contents)**
 
 #### Sending Data from React into MobX
+
+```javascript
+import React, { Component } from 'react';
+import { inject } from 'mobx-react';
+@inject('itemList')
+
+class NewItem extends Component {
+  state = { value: '' };
+
+  handleChange = event => {
+    const { value } =  event.target;
+    this.setState({ value });
+  };
+
+  handleSubmit = event => {
+    const { itemList } = this.props;
+    const { value } = this.state;
+
+    event.preventDefault();
+
+    itemList.addItem(value);
+    this.setState({ value: '' })
+  };
+
+  render() {
+    const { value } = this.state;
+
+    return (
+      <form className="NewItem" onSubmit={this.handleSubmit}>
+        <input
+          className="NewItem-input"
+          type="text"
+          value={value}
+          onChange={this.handleChange}
+        />
+        <input className="NewItem-submit button" type="submit" />
+      </form>
+    );
+  }
+}
+
+export default NewItem;
+```
+
+```javascript
+import React from 'react';
+
+const Item = ({ item }) => {
+  return (
+    <article className="Item">
+      <label htmlFor={item.id}>
+        <input
+          type="checkbox"
+          checked={item.packed}
+          onChange={item.toggle}
+          id={item.id}
+        />
+        {item.value}
+      </label>
+      <button className="Item-remove" onClick={() => {}}>
+        Remove
+      </button>
+    </article>
+  );
+};
+
+export default Item;
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### **06. Wrapping Up**
