@@ -100,6 +100,9 @@
       - [Redux Observable: Cancelling Requests](#redux-observable-cancelling-requests)
     - [**05. MobX**](#05-mobx)
       - [MobX Decorators](#mobx-decorators)
+        - [An Aside: Computed Properties](#an-aside-computed-properties)
+        - [An Aside: Decorators](#an-aside-decorators)
+        - [Okay, so... MobX](#okay-so-mobx)
       - [Pure MobX Demo](#pure-mobx-demo)
       - [MobX Concepts](#mobx-concepts)
       - [MobX in React](#mobx-in-react)
@@ -3136,6 +3139,114 @@ export default fetchCharactersEpic;
 ### **05. MobX**
 
 #### MobX Decorators
+
+##### An Aside: Computed Properties
+
+```javascript
+class Person {
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+}
+
+const person = new Person('Grace', 'Hopper');
+person.firstName;  // 'Grace'
+person.lastName;   // 'Hopper'
+person.fullName;   // function fullName() {...}
+person.fullName();  // 'Grace Hopper'
+```
+
+Getters and setters may seem like some fancy new magic, but they’ve been around since ES5.
+
+```javascript
+class Person {
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+}
+
+const person = new Person('Grace', 'Hopper');
+person.firstName;  // 'Grace'
+person.lastName;   // 'Hopper'
+person.fullName;   // 'Grace Hopper'
+```
+
+Not as as elegant, but it’ll do.
+
+```javascript
+function Person(firstName, lastName) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+}
+
+Object.defineProperty(Person.prototype, 'fullName', {
+  get: function () {
+    return this.firstName + ' ' + this.lastName;
+  }
+});
+
+const person = new Person('Grace', 'Hopper');
+person.firstName;  // 'Grace'
+person.lastName;   // 'Hopper'
+person.fullName;   // 'Grace Hopper'
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+##### An Aside: Decorators
+
+Effectively decorators provide a syntactic sugar for higher-order functions.
+
+![](img/decorator.jpg)
+
+```javascript
+function decoratorName(target, key, descriptor) {
+  // ...
+}
+```
+
+```javascript
+function readonly(target, key, descriptor) {
+  descriptor.writable = false;
+  return descriptor;
+}
+
+class Person {
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  @readonly get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+}
+```
+
+3rd Party
+
+- [core-decorators.js](https://github.com/jayphelps/core-decorators)
+- [lodash-decorators](https://github.com/steelsojka/lodash-decorators)
+
+A big problem with decorators is that they aren’t exactly "real."
+
+**[⬆ back to top](#table-of-contents)**
+
+##### Okay, so... MobX
+
+- Imagine if you could simply change your objects.
+- A primary tenet of using MobX is that you can store state in a simple data structure and allow the library to care of keeping everything up to date.
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Pure MobX Demo
