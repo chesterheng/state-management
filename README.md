@@ -3594,6 +3594,26 @@ export default class Item {
 **[⬆ back to top](#table-of-contents)**
 
 #### Add & Remove from the MobX Store
+
+```javascript
+import { observable, computed, action } from 'mobx';
+import Item from './ItemModel';
+
+export default class ItemStore {
+  @observable items = [];
+
+  @action.bound
+  addItem(value) {
+    this.items.push(new Item(value, this));
+  }
+
+  @action.bound
+  remove(itemToRemove) {
+    this.items.filter(item => item === itemToRemove);
+  }
+}
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Wiring MobX to the React App
