@@ -112,6 +112,8 @@
       - [Wiring MobX to the React App](#wiring-mobx-to-the-react-app)
       - [Sending Data from React into MobX](#sending-data-from-react-into-mobx)
     - [**06. Wrapping Up**](#06-wrapping-up)
+      - [MobX versus Redux](#mobx-versus-redux)
+      - [Wrapping Up & Q&A](#wrapping-up--qa)
 
 ## Part 1: State Management in Pure React, v2
 
@@ -119,8 +121,16 @@
 
 The main job of React is to take your application state and turn it into DOM nodes.
 
-[React State, Redux, and MobX](https://github.com/frontendmasters/react-state-management)
-[pure-react-state-management](https://github.com/FrontendMasters/pure-react-state-management)
+- [React State, Redux, and MobX](https://github.com/frontendmasters/react-state-management)
+- [pure-react-state-management](https://github.com/FrontendMasters/pure-react-state-management)
+- [State Management Patterns](https://gist.github.com/stevekinney/7b25237edd43c3e450b288c9e7857c29)
+- [Application State Management with React](https://kentcdodds.com/blog/application-state-management-with-react)
+- [React State Management in 2020](https://medium.com/better-programming/react-state-management-in-2020-719d10c816bf)
+- [3 Rules of React State Management](https://dmitripavlutin.com/react-state-management/)
+- [Recoil - a New State Management Library for React](https://www.infoq.com/news/2020/05/recoil-react-state-management/)
+- [Design Patterns for State Management in React and Typescript](https://dev.to/beccaliz/design-patterns-for-state-management-in-react-and-typescript-5da7)
+- [React state management: React Hooks vs Redux](https://tsh.io/blog/react-state-management-react-hooks-vs-redux/)
+- [Easier React State Management with OvermindJS](https://blog.bitsrc.io/making-state-management-easier-with-overmindjs-5fcdd87e8c8e)
 
 #### Types of State
 
@@ -3744,4 +3754,88 @@ export default Item;
 **[⬆ back to top](#table-of-contents)**
 
 ### **06. Wrapping Up**
+
+#### MobX versus Redux
+
+![](img/mobx.png)
+![](img/redux.png)
+
+Dependency Graphs versus Immutable State Trees
+
+Advantages of Dependency Graphs
+
+- Easy to update
+- There is a graph structure: nodes can refer to each other 
+- Actions are simpler and co-located with the data 
+- Reference by identity
+
+Advantages of Immutable State Trees
+
+- Snapshots are cheap and easy 
+- It’s a simple tree structure
+- You can serialize the entire tree 
+- Reference by state
+
+[mobx-state-tree](https://github.com/mobxjs/mobx-state-tree)
+
+```javascript
+state = {
+  items: [
+    { id: 1, value: "Storm Trooper action figure", owner: 2 },
+    { id: 2, value: "Yoga mat", owner: 1 },
+    { id: 4, value: "MacBook", owner: 3 },
+    { id: 5, value: "iPhone", owner: 1 },
+    { id: 7, value: "Melatonin", owner: 3 }
+  ],
+  owners: [
+    { id: 1, name: "Logan", items: [2, 5] },
+    { id: 2, name: "Wes", items: [1] },
+    { id: 3, name: "Steve", items: [4, 7] }
+  ]
+}
+```
+
+```javascript
+state = {
+  items: [
+    { id: 1, value: "Storm Trooper action figure", owner: 2 },
+    { id: 2, value: "Yoga mat", owner: 1 },
+    { id: 4, value: "MacBook", owner: 3 },
+    { id: 5, value: "iPhone", owner: 1 },
+    { id: 7, value: "Melatonin", owner: 3 }
+  ],
+  owners: [
+    { id: 1, name: "Logan", items: [2, 5] },
+    { id: 2, name: "Wes", items: [1] },
+    { id: 3, name: "Steve", items: [4, 7] }
+  ]
+}
+```
+
+```javascript
+state = {
+  items: {
+    1: { id: 1, value: "Storm Trooper action figure", owner: 2 ),
+    2: { id: 2, value: "Yoga mat", owner: 1 },
+    4: { id: 4, value: "MacBook", owner: 3 },
+    5: { id: 5, value: "iPhone", owner: 1 },
+    7: { id: 7, value: "Melatonin", owner: 3 }
+  },
+  owners: {
+    1: { id: 1, name: "Logan", items: [2, 5] },
+    2: { id: 2, name: "Wes", items: [1] },
+    3: { id: 3, name: "Steve", items: [4, 7] }
+  }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+#### Wrapping Up & Q&A
+
+- Could you implement the undo/ redo pattern outside of Redux?
+- Would an action/reducer pattern be helpful in MobX?
+- Would async/await make a suitable replacement for thunks or - observables?
+- Can you implement undo with API requests?
+
 **[⬆ back to top](#table-of-contents)**
