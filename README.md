@@ -3617,6 +3617,58 @@ export default class ItemStore {
 **[⬆ back to top](#table-of-contents)**
 
 #### Wiring MobX to the React App
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'mobx-react';
+
+import Application from './components/Application';
+
+import './index.css';
+
+import ItemList from './store/ItemStore';
+const itemList = new ItemList();
+
+ReactDOM.render(
+  <Provider itemList={itemList}>
+      <Application />     
+  </Provider>
+, document.getElementById('root'));
+```
+
+```javascript
+import React from 'react';
+import { inject, observer } from 'mobx-react';
+import NewItem from './NewItem';
+import Items from './Items';
+
+const PackedItems = inject('itemList')(
+  observer(({ itemList }) => {
+      return <Items title="Packed Items" items={itemList.packedItems} />
+  }),
+);
+
+const UnpackedItems = inject('itemList')(
+  observer(({ itemList }) => {
+      return <Items title="Unpacked Items" items={itemList.unpackedItems} />
+  }),
+);
+
+const Application = () => {
+  return (
+    <div className="Application">
+      <NewItem />
+      <UnpackedItems />
+      <PackedItems />
+      <button className="button full-width">Mark All As Unpacked</button>
+    </div>
+  );
+};
+
+export default Application;
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### Sending Data from React into MobX
