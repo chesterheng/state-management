@@ -1,0 +1,29 @@
+html,
+body,
+* {
+  font-family: Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+main {
+  border: 1px solid cyan;
+  margin: 2em auto;
+  padding: 1em;
+  width: 400px;
+}
+
+input {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1.4em;
+  padding: 0.5em 1em;
+  width: 100%;
+}
+
+p {
+  background-color: lightcyan;
+  border: 1px dashed cyan;
+  padding: 1em;
+  margin: 0.5em 0;
+}

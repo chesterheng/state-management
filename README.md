@@ -3,7 +3,7 @@
 ## Table of Contents
 - [State Management](#state-management)
   - [Table of Contents](#table-of-contents)
-  - [State Management in Pure React, v2](#state-management-in-pure-react-v2)
+  - [Part 1: State Management in Pure React, v2](#part-1-state-management-in-pure-react-v2)
     - [**01. Introduction**](#01-introduction)
       - [Types of State](#types-of-state)
     - [**02. Class-Based State**](#02-class-based-state)
@@ -59,7 +59,7 @@
       - [Redo Reducer Solution](#redo-reducer-solution)
       - [Managing State in a Form](#managing-state-in-a-form)
     - [**08. Wrapping Up**](#08-wrapping-up)
-  - [State Management with Redux & MobX](#state-management-with-redux--mobx)
+  - [Part 2: State Management with Redux & MobX](#part-2-state-management-with-redux--mobx)
     - [**01. Introduction**](#01-introduction-1)
       - [Introduction](#introduction)
       - [Pure & Impure Functions](#pure--impure-functions)
@@ -113,12 +113,13 @@
       - [Sending Data from React into MobX](#sending-data-from-react-into-mobx)
     - [**06. Wrapping Up**](#06-wrapping-up)
 
-## State Management in Pure React, v2
+## Part 1: State Management in Pure React, v2
 
 ### **01. Introduction**
 
 The main job of React is to take your application state and turn it into DOM nodes.
 
+[React State, Redux, and MobX](https://github.com/frontendmasters/react-state-management)
 [pure-react-state-management](https://github.com/FrontendMasters/pure-react-state-management)
 
 #### Types of State
@@ -1764,7 +1765,7 @@ const UserSignup = () => {
 
 **[⬆ back to top](#table-of-contents)**
 
-## State Management with Redux & MobX
+## Part 2: State Management with Redux & MobX
 
 ### **01. Introduction**
 
@@ -3250,6 +3251,95 @@ A big problem with decorators is that they aren’t exactly "real."
 **[⬆ back to top](#table-of-contents)**
 
 #### Pure MobX Demo
+
+```javascript
+import { observable, autorun } from "mobx";
+
+const input = document.getElementById("text-input");
+const textDisplay = document.getElementById("text-display");
+const loudDisplay = document.getElementById("text-display-uppercase");
+
+const text = observable({
+  value: "Hello World",
+  get uppercase() {
+    return this.value.toUpperCase();
+  }
+});
+
+input.addEventListener("keyup", event => {
+  text.value = event.target.value;
+});
+
+autorun(() => {
+  textDisplay.textContent = text.value;
+  loudDisplay.textContent = text.uppercase;
+})
+```
+
+Ridiculously simplified, not real code
+
+```javascript
+const onChange = (oldValue, newValue)  => {
+  // Tell MobX that this value has changed.
+}
+const observable = (value)  => {
+  return {
+    get() { return value; },
+    set(newValue) {
+      onChange(this.get(), newValue);
+      value = newValue;
+    }
+  }
+}
+```
+
+This code...
+
+```javascript
+class Person {
+  @observable firstName;
+  @observable lastName;
+
+  constructor(firstName, lastName) {
+    this.firstName;
+    this.lastName;
+  }
+}
+```
+
+...is effectively equivalent.
+
+```javascript
+function Person (firstName, lastName) {
+  this.firstName;
+  this.lastName;
+
+  extendObservable(this, {
+    firstName: firstName,
+    lastName: lastName
+  });
+}
+```
+
+```javascript
+const extendObservable = (target, source)  => {
+  source.keys().forEach(key  => {
+    const wrappedInObservable = observable(source[key]);
+    Object.defineProperty(target, key, {
+      set: value.set.
+      get: value.get
+    });
+  });
+};
+```
+
+```javascript
+// This is the @observable decorator
+const observable = (object)  => {
+  return extendObservable(object, object);
+};
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 #### MobX Concepts

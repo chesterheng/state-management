@@ -1,0 +1,19 @@
+{
+  "name": "mobx-boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "mobx": "5.9.4"
+  },
+  "devDependencies": {
+    "@babel/core": "7.2.0",
+    "@babel/plugin-proposal-decorators": "7.4.4",
+    "parcel-bundler": "^1.6.1"
+  },
+  "keywords": []
+}
