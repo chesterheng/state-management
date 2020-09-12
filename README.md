@@ -3343,6 +3343,71 @@ const observable = (object)  => {
 **[⬆ back to top](#table-of-contents)**
 
 #### MobX Concepts
+
+Four-ish major concepts
+
+- Observable state 
+- Actions 
+- Derivations
+  - Computed properties 
+  - Reactions
+
+Computed properties update their value based on observable data.
+
+Reactions produce side effects.
+
+```javascript
+ class PizzaCalculator {
+  numberOfPeople = 0;
+  slicesPerPerson = 2;
+  slicesPerPie = 8;
+
+  get slicesNeeded() {
+    return this.numberOfPeople * this.slicesPerPerson;
+  }
+
+  get piesNeeded() {
+    return Math.ceil(this.slicesNeeded / this.slicesPerPie);
+  }
+
+  addGuest() { this.numberOfPeople ++; }
+ }
+```
+
+```javascript
+import { action, observable, computed } from 'mobx';
+
+class PizzaCalculator {
+  @observable numberOfPeople = 0;
+  @observable slicesPerPerson = 2;
+  @observable slicesPerPie = 8;
+
+  @computed get slicesNeeded() {
+    console.log('Getting slices needed');
+    return this.numberOfPeople * this.slicesPerPerson;
+  }
+
+  @computed get piesNeeded() {
+    console.log('Getting pies needed');
+    return Math.ceil(this.slicesNeeded / this.slicesPerPie);
+  }
+
+  @action addGuest() {
+    this.numberOfPeople ++;
+  }
+ }
+```
+
+You can also pass most common data structures to MobX.
+
+- Objects — observable({}) 
+- Arrays — observable([])
+- Maps — observable(new Map())
+
+Caution: If you add properties to an object after you pass it to observable(), those new properties will not be observed.
+
+Use a Map() if you’re going to be adding keys later on.
+
 **[⬆ back to top](#table-of-contents)**
 
 #### MobX in React
